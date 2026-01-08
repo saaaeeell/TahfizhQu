@@ -6,15 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}TahfizhQu{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
     </style>
+    {% block extra_head %}{% endblock %}
 </head>
 
-<body class="bg-gray-100 font-sans antialiased h-screen flex overflow-hidden">
+<body class="{% block body_class %}bg-gray-100 font-sans antialiased h-screen flex overflow-hidden{% endblock %}">
+{% block body_content %}
 
     <!-- Sidebar -->
     <aside class="w-64 bg-blue-900 text-white flex-shrink-0 hidden md:flex flex-col transition-all duration-300">
@@ -153,7 +156,7 @@
             </div>
         </main>
     </div>
-
+{% endblock %}
 </body>
 
 </html>

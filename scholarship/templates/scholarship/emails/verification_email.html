@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Email - TahfizhQu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .logo-text {
+            color: #2563eb;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 18px;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 16px;
+            color: #4b5563;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        .button-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+        .verify-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 16px 48px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s ease;
+        }
+        .verify-button:hover {
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+            transform: translateY(-2px);
+        }
+        .alternative-link {
+            background-color: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .alternative-link p {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .alternative-link a {
+            color: #2563eb;
+            word-break: break-all;
+            font-size: 13px;
+        }
+        .info-box {
+            background-color: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        .info-box h3 {
+            color: #1e40af;
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .info-box ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #1e40af;
+        }
+        .info-box li {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .warning-box {
+            background-color: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .warning-box p {
+            margin: 0;
+            color: #92400e;
+            font-size: 14px;
+        }
+        .footer {
+            background-color: #f9fafb;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer p {
+            color: #6b7280;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        @media only screen and (max-width: 600px) {
+            .content {
+                padding: 30px 20px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+            .verify-button {
+                padding: 14px 32px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <span class="logo-text">📖</span>
+            </div>
+            <h1>Verifikasi Email Anda</h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <p class="greeting">
+                <strong>Assalamualaikum, {{ username }}!</strong>
+            </p>
+
+            <p class="message">
+                Terima kasih telah mendaftar di <strong>TahfizhQu</strong> - Sistem Beasiswa Tahfizh Universitas Muhammadiyah Jakarta.
+            </p>
+
+            <p class="message">
+                Untuk melanjutkan proses registrasi dan mengaktifkan akun Anda, silakan klik tombol di bawah ini:
+            </p>
+
+            <!-- Verify Button -->
+            <div class="button-container">
+                <a href="{{ activation_link }}" class="verify-button">
+                    ✓ Verifikasi Email Saya
+                </a>
+            </div>
+
+            <!-- Alternative Link -->
+            <div class="alternative-link">
+                <p><strong>Tombol tidak berfungsi?</strong></p>
+                <p>Salin dan tempel link berikut ke browser Anda:</p>
+                <a href="{{ activation_link }}">{{ activation_link }}</a>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <h3>Langkah Selanjutnya</h3>
+                <ul>
+                    <li>Klik tombol verifikasi di atas</li>
+                    <li>Login dengan username dan password Anda</li>
+                    <li>Lengkapi formulir data beasiswa</li>
+                    <li>Akses dashboard mahasiswa Anda</li>
+                </ul>
+            </div>
+
+            <!-- Warning Box -->
+            <div class="warning-box">
+                <p>
+                    <strong>Penting:</strong> Link verifikasi ini berlaku selama <strong>24 jam</strong>.
+                    Jika tidak melakukan verifikasi dalam waktu tersebut, Anda perlu mendaftar ulang.
+                </p>
+            </div>
+
+            <p class="message" style="margin-top: 30px; font-size: 14px; color: #6b7280;">
+                Jika Anda tidak merasa mendaftar di TahfizhQu, abaikan email ini.
+                Akun tidak akan diaktifkan tanpa verifikasi.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>TahfizhQu</strong></p>
+            <p>Sistem Beasiswa Tahfizh - Universitas Muhammadiyah Jakarta</p>
+
+            <div class="social-links">
+                <a href="mailto:info@tahfizhqu.com">✉️ info@tahfizhqu.com</a>
+                <span style="color: #d1d5db;">|</span>
+                <a href="tel:+622112345678">+62 21 1234 5678</a>
+            </div>
+
+            <p style="font-size: 12px; color: #9ca3af; margin-top: 20px;">
+                © 2025 TahfizhQu. All rights reserved.
+            </p>
+
+            <p style="font-size: 11px; color: #d1d5db; margin-top: 10px;">
+                Email ini dikirim otomatis. Mohon tidak membalas email ini.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -68,6 +68,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -116,15 +117,18 @@ STATIC_URL = 'static/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-# Email Configuration for Development (Console)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# For production, you would change this to smtp:
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'your-email@gmail.com'
-# EMAIL_HOST_PASSWORD = 'your-app-password'
+# Email Configuration - Gmail SMTP
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'daisyorscry@gmail.com'
+EMAIL_HOST_PASSWORD = 'ugcq kjub auja zibq'
+DEFAULT_FROM_EMAIL = 'TahfizhQu <daisyorscry@gmail.com>'
+EMAIL_TIMEOUT = 10
+
+# For development/testing, you can switch to console backend:
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 UNFOLD = {
     "SITE_TITLE": "TahfizhQu Admin",

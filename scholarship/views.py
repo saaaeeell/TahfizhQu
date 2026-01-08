@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
+from django.utils.html import strip_tags
 from .models import User, Student, Examiner, Group, Evaluation
 from .models import User, Student, Examiner, Group, Evaluation
 from .forms import EvaluationForm, AdminStudentCreationForm, StudentRegistrationForm, ScholarshipApplicationForm, ExaminerCreationForm
@@ -26,6 +27,43 @@ def home(request):
             return redirect('admin_dashboard')
     return render(request, 'scholarship/home.html')
 
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Try to get the user first (without authenticating)
+        User = get_user_model()
+        try:
+            user_obj = User.objects.get(username=username)
+
+            # Check if email is verified
+            if not user_obj.is_active:
+                messages.error(request, 'Akun Anda belum diverifikasi. Silakan cek email Anda dan klik link verifikasi terlebih dahulu.')
+                return render(request, 'scholarship/login.html')
+        except User.DoesNotExist:
+            pass  # Will be caught by authenticate below
+
+        # Authenticate user
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            # Redirect based on role
+            if user.role == 'student':
+                return redirect('student_dashboard')
+            elif user.role == 'examiner':
+                return redirect('examiner_dashboard')
+            elif user.role == 'admin':
+                return redirect('admin_dashboard')
+            else:
+                return redirect('home')
+        else:
+            messages.error(request, 'Username atau password salah.')
+            return render(request, 'scholarship/login.html')
+
+    return render(request, 'scholarship/login.html')
+
 def register_student(request):
     if request.method == 'POST':
         form = StudentRegistrationForm(request.POST)
@@ -37,19 +75,48 @@ def register_student(request):
 
             # Email Verification Logic
             current_site = get_current_site(request)
-            mail_subject = 'Activate your TahfizhQu account'
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             domain = current_site.domain
-            # Construct link manually or use reverse if urls are set up. using hardcoded structure for clarity now, but better to use template or string format
-            activation_link = f"http://{domain}/activate/{uid}/{token}/"
-            
-            message = f"Hi {user.username},\n\nPlease click on the link below to verify your email and complete your registration:\n{activation_link}\n\nThanks,\nTahfizhQu Team"
-            
-            send_mail(mail_subject, message, 'admin@tahfizhqu.com', [user.email])
-            
-            messages.success(request, 'Please confirm your email address to complete the registration. Check your inbox (or terminal console).')
-            return redirect('login')
+            protocol = 'https' if request.is_secure() else 'http'
+            activation_link = f"{protocol}://{domain}/activate/{uid}/{token}/"
+
+            # Render HTML email template
+            html_content = render_to_string('scholarship/emails/verification_email.html', {
+                'username': user.username,
+                'activation_link': activation_link,
+                'domain': domain,
+            })
+
+            # Create plain text version
+            text_content = strip_tags(html_content)
+
+            # Send email with both HTML and plain text versions
+            subject = 'Aktivasi Akun TahfizhQu - Verifikasi Email Anda'
+            from_email = 'TahfizhQu <daisyorscry@gmail.com>'
+            to_email = [user.email]
+
+            try:
+                # Create email with HTML
+                email = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+                email.attach_alternative(html_content, "text/html")
+                email.send(fail_silently=False)
+
+                email_sent = True
+                email_error = None
+            except Exception as e:
+                email_sent = False
+                email_error = str(e)
+
+            # Show success state in same page
+            return render(request, 'scholarship/register_student.html', {
+                'form': form,
+                'registration_success': True,
+                'email': user.email,
+                'username': user.username,
+                'email_sent': email_sent,
+                'email_error': email_error,
+            })
     else:
         form = StudentRegistrationForm()
     return render(request, 'scholarship/register_student.html', {'form': form})
@@ -79,25 +146,26 @@ def apply_scholarship(request):
             student_obj.save()
 
             # Send Confirmation Email
+            html_content = render_to_string('scholarship/emails/scholarship_confirmation.html', {
+                'student_name': student_obj.nama,
+                'nim': student_obj.nim,
+                'fakultas': student_obj.fakultas,
+                'jurusan': student_obj.jurusan,
+                'semester': student_obj.semester,
+                'ipk': student_obj.ipk,
+                'jumlah_hafalan': student_obj.jumlah_hafalan,
+                'status': student_obj.status_seleksi,
+            })
+
+            text_content = strip_tags(html_content)
             subject = 'Konfirmasi Pendaftaran Beasiswa TahfizhQu'
-            message = f"""
-Assalamualaikum {student_obj.nama},
+            from_email = 'TahfizhQu <daisyorscry@gmail.com>'
+            to_email = [request.user.email]
 
-Terima kasih telah mendaftar Beasiswa TahfizhQu.
-Data pendaftaran Anda telah kami terima dan sedang dalam proses verifikasi.
-
-Status Pendaftaran Anda saat ini: {student_obj.status_seleksi}
-
-Kami akan memberitahukan perkembangan selanjutnya melalui email atau Anda dapat mengecek status di dashboard akun Anda.
-
-Wassalamualaikum,
-Tim TahfizhQu
-            """
-            from_email = 'admin@tahfizhqu.com'
-            recipient_list = [request.user.email]
-            
             try:
-                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                email = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+                email.attach_alternative(html_content, "text/html")
+                email.send(fail_silently=False)
                 messages.success(request, 'Pendaftaran beasiswa berhasil dikirim. Email konfirmasi telah dikirim ke ' + request.user.email)
             except Exception as e:
                 # If email fails, still show success for the application but warn about email
@@ -143,12 +211,14 @@ def verify_student(request, student_id):
 def student_dashboard(request):
     if request.user.role != 'student':
         return redirect('home')
-    
+
     # Safely get student profile
     try:
         student = request.user.student_profile
     except Student.DoesNotExist:
-        return render(request, 'scholarship/error_profile_missing.html')
+        # If student profile doesn't exist, redirect to scholarship application
+        messages.info(request, 'Silakan lengkapi data beasiswa Anda untuk melanjutkan.')
+        return redirect('apply_scholarship')
 
     groups = student.groups.all()
     evaluations = Evaluation.objects.filter(student=student)
@@ -308,12 +378,12 @@ def activate(request, uidb64, token):
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-        
+
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        messages.success(request, 'Thank you for your email confirmation. Now you can login your account.')
+        messages.success(request, 'Email berhasil diverifikasi! Silakan login untuk melanjutkan.')
         return redirect('login')
     else:
-        messages.error(request, 'Activation link is invalid!')
+        messages.error(request, 'Link aktivasi tidak valid atau sudah kadaluarsa!')
         return redirect('home')

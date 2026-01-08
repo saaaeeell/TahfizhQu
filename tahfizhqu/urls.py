@@ -17,10 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from scholarship import views
 
 urlpatterns = [
     path('', include('scholarship.urls')),
     path('admin/', admin.site.urls),
-    path('login/', auth_views.LoginView.as_view(template_name='scholarship/login.html'), name='login'),
+    path('login/', views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
 ]

@@ -1,24 +1,358 @@
 {% extends 'scholarship/base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}TahfizhQu - Sistem Beasiswa Tahfizh{% endblock %}
 
-{% block content %}
-<div class="text-center py-12">
-    <h2 class="text-4xl font-extrabold text-blue-900 mb-4">Welcome to TahfizhQu</h2>
-    <p class="text-xl text-gray-600 mb-8">Sistem seleksi beasiswa tahfizh terintegrasi untuk mahasiswa UMJ.</p>
+{% block body_class %}bg-white{% endblock %}
 
-    {% if not user.is_authenticated %}
-    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 inline-block">
-        <p class="text-blue-800 mb-4">Silakan login untuk mengakses dashboard Anda.</p>
-        <a href="{% url 'login' %}"
-            class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition shadow-md">
-            Login Sekarang
-        </a>
-    </div>
-    {% else %}
-    <p class="text-green-600 font-semibold">
-        Anda sudah login sebagai <span class="uppercase">{{ user.role }}</span>.
-    </p>
-    {% endif %}
+{% block body_content %}
+<div class="min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-sm fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-book-quran text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-blue-900">TahfizhQu</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-700 hover:text-blue-600 font-medium transition">Fitur</a>
+                    <a href="#benefits" class="text-gray-700 hover:text-blue-600 font-medium transition">Keuntungan</a>
+                    <a href="#about" class="text-gray-700 hover:text-blue-600 font-medium transition">Tentang</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    {% if user.is_authenticated %}
+                        <a href="{% if user.role == 'admin' %}{% url 'admin_dashboard' %}{% elif user.role == 'examiner' %}{% url 'examiner_dashboard' %}{% else %}{% url 'student_dashboard' %}{% endif %}"
+                           class="text-blue-600 hover:text-blue-700 font-semibold">Dashboard</a>
+                        <form action="{% url 'logout' %}" method="post" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded-lg font-medium transition">
+                                Logout
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-blue-600 hover:text-blue-700 font-semibold">Login</a>
+                        <a href="{% url 'register_student' %}" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            Daftar Sekarang
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-20 bg-gradient-to-br from-blue-50 via-white to-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    {% if user.is_authenticated %}
+                        <div class="inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold">
+                            <i class="fas fa-check-circle mr-2"></i>Login sebagai {{ user.role|title }}
+                        </div>
+                    {% else %}
+                        <div class="inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
+                            <i class="fas fa-star mr-2"></i>Beasiswa Tahfizh 2025
+                        </div>
+                    {% endif %}
+
+                    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+                        Raih Beasiswa <span class="text-blue-600">Tahfizh</span> Impianmu
+                    </h1>
+
+                    <p class="text-xl text-gray-600 leading-relaxed">
+                        Sistem seleksi beasiswa tahfizh terintegrasi untuk mahasiswa UMJ. Daftar sekarang dan wujudkan mimpimu menghafal Al-Qur'an sambil kuliah.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        {% if not user.is_authenticated %}
+                            <a href="{% url 'register_student' %}" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition shadow-xl hover:shadow-2xl transform hover:-translate-y-1 text-center">
+                                <i class="fas fa-rocket mr-2"></i>Daftar Beasiswa
+                            </a>
+                            <a href="{% url 'login' %}" class="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold text-lg border-2 border-blue-600 hover:bg-blue-50 transition text-center">
+                                <i class="fas fa-sign-in-alt mr-2"></i>Login
+                            </a>
+                        {% else %}
+                            <a href="{% if user.role == 'admin' %}{% url 'admin_dashboard' %}{% elif user.role == 'examiner' %}{% url 'examiner_dashboard' %}{% else %}{% url 'student_dashboard' %}{% endif %}"
+                               class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition shadow-xl hover:shadow-2xl transform hover:-translate-y-1 text-center">
+                                <i class="fas fa-tachometer-alt mr-2"></i>Buka Dashboard
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="flex items-center space-x-8 pt-4">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-600">500+</div>
+                            <div class="text-gray-600 text-sm">Mahasiswa</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-600">50+</div>
+                            <div class="text-gray-600 text-sm">Penguji</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-600">95%</div>
+                            <div class="text-gray-600 text-sm">Kepuasan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hidden md:block">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 rounded-3xl transform rotate-6"></div>
+                        <div class="relative bg-white rounded-3xl shadow-2xl p-8 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+                            <div class="space-y-6">
+                                <div class="flex items-center space-x-4 bg-blue-50 p-4 rounded-xl">
+                                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-user-graduate text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-800">Pendaftaran Mudah</div>
+                                        <div class="text-sm text-gray-600">Proses cepat & simple</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4 bg-green-50 p-4 rounded-xl">
+                                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check-double text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-800">Evaluasi Transparan</div>
+                                        <div class="text-sm text-gray-600">Sistem penilaian WSM</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4 bg-purple-50 p-4 rounded-xl">
+                                    <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-trophy text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-800">Hasil Real-Time</div>
+                                        <div class="text-sm text-gray-600">Pantau status langsung</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Fitur Unggulan</h2>
+                <p class="text-xl text-gray-600">Sistem yang dirancang untuk kemudahan dan transparansi</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl hover:shadow-xl transition transform hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-laptop text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Dashboard Interaktif</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Kelola semua data mahasiswa, penguji, dan evaluasi dalam satu platform yang mudah digunakan.
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl hover:shadow-xl transition transform hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-green-600 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-calculator text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Metode WSM</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Sistem penilaian Weighted Sum Method untuk hasil yang objektif dan transparan.
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-2xl hover:shadow-xl transition transform hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Manajemen Group</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Organisir mahasiswa dalam grup dengan penguji dan link komunikasi terintegrasi.
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-8 rounded-2xl hover:shadow-xl transition transform hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-orange-600 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Verifikasi Otomatis</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Admin dapat memverifikasi pendaftar dengan sistem notifikasi email otomatis.
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-8 rounded-2xl hover:shadow-xl transition transform hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-pink-600 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Tracking Real-Time</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Mahasiswa dapat memantau status pendaftaran dan hasil evaluasi secara langsung.
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-2xl hover:shadow-xl transition transform hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-mobile-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Responsive Design</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Akses dari berbagai perangkat - desktop, tablet, atau smartphone dengan tampilan optimal.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-20 bg-gradient-to-br from-blue-50 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Mengapa Memilih TahfizhQu?</h2>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 mb-2">Proses Transparan</h4>
+                                <p class="text-gray-600">Sistem penilaian yang jelas dan dapat dipertanggungjawabkan dengan metode WSM.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 mb-2">Hemat Waktu</h4>
+                                <p class="text-gray-600">Automasi proses dari pendaftaran hingga pengumuman hasil seleksi.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 mb-2">Mudah Digunakan</h4>
+                                <p class="text-gray-600">Interface yang intuitif dan user-friendly untuk semua kalangan.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-900 mb-2">Support 24/7</h4>
+                                <p class="text-gray-600">Tim support siap membantu kendala teknis kapan saja.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-2xl p-8">
+                    <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl p-8 text-white mb-6">
+                        <h3 class="text-2xl font-bold mb-4">Mulai Sekarang!</h3>
+                        <p class="mb-6">Daftar dan raih kesempatan emas untuk mendapatkan beasiswa tahfizh.</p>
+                        {% if not user.is_authenticated %}
+                            <a href="{% url 'register_student' %}" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition inline-block">
+                                Daftar Sekarang <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% if user.role == 'admin' %}{% url 'admin_dashboard' %}{% elif user.role == 'examiner' %}{% url 'examiner_dashboard' %}{% else %}{% url 'student_dashboard' %}{% endif %}"
+                               class="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition inline-block">
+                                Buka Dashboard <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-clock text-blue-600 text-xl"></i>
+                            <span class="text-gray-700">Pendaftaran dibuka sepanjang tahun</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-money-bill-wave text-green-600 text-xl"></i>
+                            <span class="text-gray-700">Gratis biaya pendaftaran</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-purple-600 text-xl"></i>
+                            <span class="text-gray-700">Notifikasi email otomatis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold text-gray-900 mb-6">Tentang TahfizhQu</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                TahfizhQu adalah sistem manajemen beasiswa tahfizh yang dirancang khusus untuk Universitas Muhammadiyah Jakarta (UMJ).
+                Dengan menggunakan metode Weighted Sum Method (WSM), kami memastikan proses seleksi yang objektif dan transparan
+                berdasarkan kriteria makhorijul huruf, tajwid, kelancaran, jumlah hafalan, dan IPK.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-book-quran text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold">TahfizhQu</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Sistem seleksi beasiswa tahfizh terintegrasi untuk mahasiswa UMJ.
+                        Wujudkan impian menghafal Al-Qur'an sambil menimba ilmu.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition">Fitur</a></li>
+                        <li><a href="#benefits" class="text-gray-400 hover:text-white transition">Keuntungan</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition">Tentang</a></li>
+                        {% if not user.is_authenticated %}
+                            <li><a href="{% url 'register_student' %}" class="text-gray-400 hover:text-white transition">Daftar</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Kontak</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-envelope mr-2"></i>info@tahfizhqu.com</li>
+                        <li><i class="fas fa-phone mr-2"></i>+62 21 1234 5678</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i>Jakarta, Indonesia</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 TahfizhQu - Universitas Muhammadiyah Jakarta. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </div>
 {% endblock %}

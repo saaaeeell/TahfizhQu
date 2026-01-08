@@ -1,33 +1,29 @@
 {% extends 'scholarship/base.html' %}
 
-{% block title %}Registrasi Akun Mahasiswa{% endblock %}
+{% block title %}Daftar Beasiswa - TahfizhQu{% endblock %}
 
-{% block content %}
-<div class="max-w-md mx-auto bg-white p-8 border border-gray-300 rounded-lg shadow-md mt-10">
-    <h2 class="text-2xl font-bold mb-6 text-center text-teal-700">Registrasi Akun</h2>
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="mb-4">
-            <label for="{{ field.id_for_label }}" class="block text-gray-700 font-bold mb-2">{{ field.label }}</label>
-            {{ field }}
-            {% if field.help_text %}
-            <p class="text-gray-600 text-xs italic">{{ field.help_text }}</p>
-            {% endif %}
-            {% for error in field.errors %}
-            <p class="text-red-500 text-xs italic">{{ error }}</p>
-            {% endfor %}
+{% block body_class %}bg-gradient-to-br from-blue-50 via-white to-blue-50 min-h-screen{% endblock %}
+
+{% block body_content %}
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl w-full grid md:grid-cols-2 gap-8 items-center">
+
+        <!-- Left Sidebar Component -->
+        {% include 'scholarship/components/register/left_sidebar.html' %}
+
+        <!-- Right Side - Form or Success State -->
+        <div class="w-full">
+            <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
+                {% if registration_success %}
+                    <!-- Success State Component -->
+                    {% include 'scholarship/components/register/success.html' %}
+                {% else %}
+                    <!-- Registration Form Component -->
+                    {% include 'scholarship/components/register/form.html' %}
+                {% endif %}
+            </div>
         </div>
-        {% endfor %}
-        <div class="flex items-center justify-between mt-6">
-            <button
-                class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
-                type="submit">
-                Daftar
-            </button>
-        </div>
-    </form>
-    <p class="mt-4 text-center text-gray-600 text-sm">Sudah punya akun? <a href="{% url 'login' %}"
-            class="text-teal-600 hover:text-teal-800 font-bold">Login disini</a></p>
+
+    </div>
 </div>
 {% endblock %}

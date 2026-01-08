@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi Pendaftaran Beasiswa - TahfizhQu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .logo-text {
+            color: #10b981;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 18px;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 16px;
+            color: #4b5563;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .info-card {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        .info-card h3 {
+            color: #1e40af;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #bfdbfe;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            color: #1e40af;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .info-value {
+            color: #1e3a8a;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .status-badge {
+            display: inline-block;
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+        .next-steps {
+            background-color: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        .next-steps h3 {
+            color: #065f46;
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .next-steps ol {
+            margin: 0;
+            padding-left: 20px;
+            color: #047857;
+        }
+        .next-steps li {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .footer {
+            background-color: #f9fafb;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer p {
+            color: #6b7280;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        @media only screen and (max-width: 600px) {
+            .content {
+                padding: 30px 20px;
+            }
+            .info-row {
+                flex-direction: column;
+            }
+            .info-value {
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <span class="logo-text">✓</span>
+            </div>
+            <h1>Pendaftaran Diterima!</h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <p class="greeting">
+                <strong>Assalamualaikum, {{ student_name }}!</strong>
+            </p>
+
+            <p class="message">
+                Terima kasih telah melengkapi data pendaftaran Beasiswa Tahfizh di <strong>TahfizhQu</strong>.
+            </p>
+
+            <p class="message">
+                Data pendaftaran Anda telah kami terima dan sedang dalam proses verifikasi oleh tim admin kami.
+            </p>
+
+            <!-- Status Badge -->
+            <div style="text-align: center;">
+                <span class="status-badge">Status: {{ status }}</span>
+            </div>
+
+            <!-- Student Info Card -->
+            <div class="info-card">
+                <h3>Ringkasan Data Anda</h3>
+                <div class="info-row">
+                    <span class="info-label">Nama Lengkap</span>
+                    <span class="info-value">{{ student_name }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">NIM</span>
+                    <span class="info-value">{{ nim }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Fakultas</span>
+                    <span class="info-value">{{ fakultas }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Jurusan</span>
+                    <span class="info-value">{{ jurusan }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Semester</span>
+                    <span class="info-value">{{ semester }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">IPK</span>
+                    <span class="info-value">{{ ipk }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Jumlah Hafalan</span>
+                    <span class="info-value">{{ jumlah_hafalan }} Juz</span>
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <h3>📌 Langkah Selanjutnya</h3>
+                <ol>
+                    <li><strong>Verifikasi Admin:</strong> Tim kami akan memverifikasi data Anda dalam 1-3 hari kerja</li>
+                    <li><strong>Notifikasi Email:</strong> Anda akan menerima email notifikasi setelah verifikasi selesai</li>
+                    <li><strong>Pembagian Grup:</strong> Setelah diverifikasi, Anda akan dimasukkan ke dalam grup ujian</li>
+                    <li><strong>Informasi Ujian:</strong> Link WhatsApp dan Google Meet akan dikirimkan melalui dashboard</li>
+                    <li><strong>Evaluasi:</strong> Penguji akan melakukan penilaian sesuai jadwal yang ditentukan</li>
+                    <li><strong>Pengumuman Hasil:</strong> Hasil seleksi akan diumumkan melalui dashboard dan email</li>
+                </ol>
+            </div>
+
+            <p class="message">
+                Anda dapat memantau status pendaftaran Anda secara real-time melalui dashboard mahasiswa di website TahfizhQu.
+            </p>
+
+            <p class="message" style="margin-top: 30px;">
+                <strong>Jazakumullah khairan katsiran</strong> atas partisipasinya dalam program Beasiswa Tahfizh ini.
+                Semoga menjadi langkah awal untuk menghafal Al-Qur'an dengan lebih baik.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>TahfizhQu</strong></p>
+            <p>Sistem Beasiswa Tahfizh - Universitas Muhammadiyah Jakarta</p>
+
+            <div style="margin: 20px 0;">
+                <a href="mailto:info@tahfizhqu.com" style="color: #10b981; text-decoration: none; margin: 0 10px;">✉️ info@tahfizhqu.com</a>
+                <span style="color: #d1d5db;">|</span>
+                <a href="tel:+622112345678" style="color: #10b981; text-decoration: none; margin: 0 10px;">📞 +62 21 1234 5678</a>
+            </div>
+
+            <p style="font-size: 12px; color: #9ca3af; margin-top: 20px;">
+                © 2025 TahfizhQu. All rights reserved.
+            </p>
+
+            <p style="font-size: 11px; color: #d1d5db; margin-top: 10px;">
+                Wassalamualaikum Wr. Wb.<br>
+                Email ini dikirim otomatis. Mohon tidak membalas email ini.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
