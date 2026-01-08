@@ -1,0 +1,99 @@
+{% extends 'scholarship/base.html' %}
+
+{% block title %}Dashboard Admin{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-8">
+    <h2 class="text-2xl font-bold text-gray-800">Dashboard Admin</h2>
+    <div class="space-x-3">
+        <a href="{% url 'verification_list' %}"
+            class="bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-yellow-700 transition shadow">
+            Verifikasi Data
+        </a>
+        <a href="{% url 'create_examiner' %}"
+            class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition shadow">
+            Create Examiner
+        </a>
+        <a href="{% url 'create_group' %}"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition shadow">
+            Buat Kelompok
+        </a>
+        <a href="{% url 'announce_results' %}"
+            onclick="return confirm('Apakah Anda yakin ingin mempublikasikan semua hasil?')"
+            class="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-900 transition shadow">
+            Umumkan Hasil
+        </a>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- Stat Cards -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <p class="text-sm font-medium text-gray-500">Total Mahasiswa</p>
+        <p class="text-3xl font-bold text-gray-800">{{ students.count }}</p>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <p class="text-sm font-medium text-gray-500">Total Kelompok</p>
+        <p class="text-3xl font-bold text-blue-800">{{ groups.count }}</p>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <p class="text-sm font-medium text-gray-500">Evaluasi Masuk</p>
+        <p class="text-3xl font-bold text-green-800">{{ evaluations.count }}</p>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Groups List -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-100">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+            <h3 class="font-bold text-gray-700">Daftar Kelompok</h3>
+        </div>
+        <div class="p-6">
+            <ul class="space-y-3">
+                {% for group in groups %}
+                <li class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <div>
+                        <p class="font-medium text-gray-800">{{ group.nama_group }}</p>
+                        <p class="text-xs text-gray-500">Penguji: {{ group.examiner.nama }}</p>
+                    </div>
+                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                        {{ group.members.count }} Anggota
+                    </span>
+                </li>
+                {% empty %}
+                <li class="text-gray-500 italic text-center text-sm">Belum ada kelompok.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Recent Evaluations -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-100">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+            <h3 class="font-bold text-gray-700">Evaluasi Terbaru</h3>
+        </div>
+        <div class="p-6">
+            <ul class="space-y-3">
+                {% for eval in evaluations|slice:":5" %}
+                <li class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <div>
+                        <p class="font-medium text-gray-800">{{ eval.student.nama }}</p>
+                        <p class="text-xs text-gray-500">oleh {{ eval.examiner.nama }}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block font-bold text-gray-800">{{ eval.wsm_score }}</span>
+                        {% if eval.is_published %}
+                        <span class="text-xs text-green-600">Terbit</span>
+                        {% else %}
+                        <span class="text-xs text-yellow-600">Pending</span>
+                        {% endif %}
+                    </div>
+                </li>
+                {% empty %}
+                <li class="text-gray-500 italic text-center text-sm">Belum ada evaluasi masuk.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

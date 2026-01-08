@@ -1,0 +1,103 @@
+{% extends 'scholarship/base.html' %}
+
+{% block title %}Buat Kelompok{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-800">Buat Kelompok Baru</h2>
+        <p class="text-gray-600">Atur kelompok mahasiswa dan tetapkan penguji.</p>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-8">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Filter Mahasiswa (Belum Masuk Kelompok)</h3>
+        <form method="get" class="flex flex-wrap gap-4 items-end">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Filter Berdasarkan</label>
+                <select name="filter_type"
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
+                    <option value="">-- Pilih --</option>
+                    <option value="semester" {% if request.GET.filter_type == 'semester' %}selected{% endif %}>Semester
+                    </option>
+                    <option value="juz" {% if request.GET.filter_type == 'juz' %}selected{% endif %}>Jumlah Juz</option>
+                    <option value="nim" {% if request.GET.filter_type == 'nim' %}selected{% endif %}>Urutkan NIM</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nilai Filter</label>
+                <input type="text" name="filter_value" value="{{ request.GET.filter_value|default:'' }}"
+                    placeholder="cth. 1, 5"
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
+            </div>
+            <div class="flex space-x-2">
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition shadow-sm font-medium">Terapkan</button>
+                <a href="{% url 'create_group' %}"
+                    class="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-50 transition shadow-sm font-medium">Reset</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Creation Form -->
+    <form method="post" class="bg-white space-y-6">
+        {% csrf_token %}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kelompok</label>
+                <input type="text" name="nama_group" required
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
+                    placeholder="cth. Kelompok A1">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Penguji</label>
+                <select name="examiner" required
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
+                    {% for examiner in examiners %}
+                    <option value="{{ examiner.id }}">{{ examiner.nama }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Mahasiswa (Multiple)</label>
+            <p class="text-xs text-gray-500 mb-2">Tahan tombol Ctrl (Windows) atau Command (Mac) untuk memilih lebih
+                dari satu.</p>
+            <select name="students" multiple required
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border h-48">
+                {% for student in students %}
+                <option value="{{ student.id }}">{{ student.nama }} (Sem {{ student.semester }} | {{
+                    student.jumlah_hafalan }} Juz)</option>
+                {% empty %}
+                <option disabled>Tidak ada mahasiswa tersedia (atau sudah masuk kelompok)</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Link WhatsApp Group</label>
+                <input type="url" name="whatsapp_link"
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
+                    placeholder="https://chat.whatsapp.com/...">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Link Google Meet</label>
+                <input type="url" name="gmeet_link"
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
+                    placeholder="https://meet.google.com/...">
+            </div>
+        </div>
+
+        <div class="pt-4 border-t border-gray-100 flex justify-end">
+            <button type="submit"
+                class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow-lg font-bold">Buat
+                Kelompok</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

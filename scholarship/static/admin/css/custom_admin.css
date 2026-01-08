@@ -1,0 +1,59 @@
+:root {
+    --primary: #1E3A8A !important;
+    --secondary: #3B82F6 !important;
+    --accent: #60A5FA !important;
+    --primary-fg: #ffffff !important;
+    --body-fg: #333333 !important;
+    --body-bg: #ffffff !important;
+    --body-quiet-color: #666666 !important;
+    --header-color: #ffffff !important;
+    --header-branding-color: #ffffff !important;
+    --header-bg: #1E3A8A !important;
+    --header-link-color: #ffffff !important;
+    --breadcrumbs-fg: #e5e7eb !important;
+    --breadcrumbs-link-fg: #ffffff !important;
+    --breadcrumbs-bg: #1e40af !important;
+    --link-fg: #2563EB !important;
+    --link-hover-color: #1d4ed8 !important;
+    --link-selected-fg: #1d4ed8 !important;
+    
+    /* Button colors */
+    --button-fg: #ffffff !important;
+    --button-bg: #2563EB !important;
+    --button-hover-bg: #1d4ed8 !important;
+    --default-button-bg: #3B82F6 !important;
+    --default-button-hover-bg: #2563EB !important;
+}
+
+#header {
+    background: var(--header-bg);
+}
+
+.module caption, .module h2 {
+    background: var(--secondary);
+}
+
+div.breadcrumbs {
+    background: var(--breadcrumbs-bg);
+}
+
+a:link, a:visited {
+    color: var(--link-fg);
+}
+
+a:hover {
+    color: var(--link-hover-color);
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: var(--button-bg);
+    color: var(--button-fg);
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover {
+    background: var(--button-hover-bg);
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: var(--default-button-bg);
+}

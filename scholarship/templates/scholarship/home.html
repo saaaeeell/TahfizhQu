@@ -1,0 +1,24 @@
+{% extends 'scholarship/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="text-center py-12">
+    <h2 class="text-4xl font-extrabold text-blue-900 mb-4">Welcome to TahfizhQu</h2>
+    <p class="text-xl text-gray-600 mb-8">Sistem seleksi beasiswa tahfizh terintegrasi untuk mahasiswa UMJ.</p>
+
+    {% if not user.is_authenticated %}
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 inline-block">
+        <p class="text-blue-800 mb-4">Silakan login untuk mengakses dashboard Anda.</p>
+        <a href="{% url 'login' %}"
+            class="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition shadow-md">
+            Login Sekarang
+        </a>
+    </div>
+    {% else %}
+    <p class="text-green-600 font-semibold">
+        Anda sudah login sebagai <span class="uppercase">{{ user.role }}</span>.
+    </p>
+    {% endif %}
+</div>
+{% endblock %}
