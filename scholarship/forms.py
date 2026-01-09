@@ -84,6 +84,14 @@ class StudentRegistrationForm(forms.ModelForm):
                 "password and confirm_password does not match"
             )
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        # Hash the password properly
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+
 class ScholarshipApplicationForm(forms.ModelForm):
     class Meta:
         model = Student
