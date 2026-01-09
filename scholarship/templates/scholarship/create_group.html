@@ -18,10 +18,10 @@
                 <select name="filter_type"
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
                     <option value="">-- Pilih --</option>
-                    <option value="semester" {% if request.GET.filter_type == 'semester' %}selected{% endif %}>Semester
+                    <option value="semester" {% if request.GET.filter_type=='semester' %}selected{% endif %}>Semester
                     </option>
-                    <option value="juz" {% if request.GET.filter_type == 'juz' %}selected{% endif %}>Jumlah Juz</option>
-                    <option value="nim" {% if request.GET.filter_type == 'nim' %}selected{% endif %}>Urutkan NIM</option>
+                    <option value="juz" {% if request.GET.filter_type=='juz' %}selected{% endif %}>Jumlah Juz</option>
+                    <option value="nim" {% if request.GET.filter_type=='nim' %}selected{% endif %}>Urutkan NIM</option>
                 </select>
             </div>
             <div>
@@ -40,64 +40,237 @@
     </div>
 
     <!-- Creation Form -->
-    <form method="post" class="bg-white space-y-6">
+    <form method="post" class="space-y-6">
         {% csrf_token %}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kelompok</label>
-                <input type="text" name="nama_group" required
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
-                    placeholder="cth. Kelompok A1">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Kelompok</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                                <i class="fas fa-layer-group"></i>
+                            </span>
+                            <input type="text" name="nama_group" required
+                                class="block w-full pl-10 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2.5 border transition-all"
+                                placeholder="cth. Kelompok A1">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pilih Penguji</label>
+                        <div class="relative">
+                            <span
+                                class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 pointer-events-none">
+                                <i class="fas fa-user-tie"></i>
+                            </span>
+                            <select name="examiner" required
+                                class="block w-full pl-10 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2.5 border appearance-none transition-all">
+                                <option value="" disabled selected>Pilih Penguji</option>
+                                {% for examiner in examiners %}
+                                <option value="{{ examiner.id }}">{{ examiner.nama }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Link WhatsApp Group</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-green-500">
+                                <i class="fab fa-whatsapp"></i>
+                            </span>
+                            <input type="url" name="whatsapp_link"
+                                class="block w-full pl-10 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2.5 border transition-all"
+                                placeholder="https://chat.whatsapp.com/...">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Link Google Meet</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-blue-500">
+                                <i class="fas fa-video"></i>
+                            </span>
+                            <input type="url" name="gmeet_link"
+                                class="block w-full pl-10 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2.5 border transition-all"
+                                placeholder="https://meet.google.com/...">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block text-sm font-semibold text-gray-700">Pilih Mahasiswa (Belum Masuk
+                            Kelompok)</label>
+                        <span id="selectedCount"
+                            class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">0
+                            Terpilih</span>
+                    </div>
+
+                    <div
+                        class="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm ring-1 ring-black ring-opacity-5">
+                        <!-- Header with Search & Select All -->
+                        <div
+                            class="bg-gray-50 border-b border-gray-200 p-3 flex flex-wrap items-center justify-between gap-3">
+                            <div class="flex items-center space-x-3">
+                                <input type="checkbox" id="selectAll"
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer">
+                                <label for="selectAll"
+                                    class="text-sm font-bold text-gray-700 cursor-pointer select-none">Pilih
+                                    Semua</label>
+                            </div>
+                            <div class="relative flex-1 min-w-[200px]">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" id="studentSearch" placeholder="Cari nama atau NIM..."
+                                    class="block w-full pl-9 pr-3 py-1.5 text-sm border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 border transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Scrollable List -->
+                        <div class="max-h-80 overflow-y-auto divide-y divide-gray-100" id="studentList">
+                            {% for student in students %}
+                            <label
+                                class="student-item flex items-center px-4 py-3 hover:bg-blue-50/50 transition cursor-pointer group">
+                                <div class="relative flex items-center">
+                                    <input type="checkbox" name="students" value="{{ student.id }}"
+                                        class="student-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer transition-all">
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div
+                                        class="text-sm font-bold text-gray-900 group-hover:text-blue-700 transition-colors">
+                                        {{ student.nama }}</div>
+                                    <div class="flex flex-wrap gap-2 mt-1">
+                                        <span class="text-xs font-medium text-gray-500">NIM: {{ student.nim }}</span>
+                                        <span class="text-xs text-gray-400">•</span>
+                                        <span class="text-xs font-medium text-gray-500">Sem {{ student.semester
+                                            }}</span>
+                                        <span class="text-xs text-gray-400">•</span>
+                                        <span class="text-xs font-medium text-gray-500">{{ student.jumlah_hafalan }}
+                                            Juz</span>
+                                    </div>
+                                </div>
+                                <div class="hidden sm:block ml-4">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors">
+                                        {{ student.fakultas }}
+                                    </span>
+                                </div>
+                            </label>
+                            {% empty %}
+                            <div class="p-8 text-center">
+                                <div
+                                    class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 text-gray-400 mb-3">
+                                    <i class="fas fa-user-slash text-xl"></i>
+                                </div>
+                                <p class="text-gray-500 font-medium">Tidak ada mahasiswa yang tersedia untuk dipilih.
+                                </p>
+                                <p class="text-xs text-gray-400 mt-1">Coba reset filter atau pastikan mahasiswa sudah
+                                    diverifikasi.</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Penguji</label>
-                <select name="examiner" required
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
-                    {% for examiner in examiners %}
-                    <option value="{{ examiner.id }}">{{ examiner.nama }}</option>
-                    {% endfor %}
-                </select>
+            <div
+                class="bg-gray-50 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-100">
+                <div class="text-sm text-gray-500 flex items-center">
+                    <i class="fas fa-info-circle mr-2 text-blue-400"></i>
+                    <span>Tentukan penguji dan minimal 1 mahasiswa untuk membuat kelompok.</span>
+                </div>
+                <button type="submit"
+                    class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 bg-blue-600 border border-transparent rounded-xl font-bold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all shadow-lg hover:shadow-blue-200 transform hover:-translate-y-0.5">
+                    <i class="fas fa-plus-circle mr-2"></i>
+                    Buat Kelompok Baru
+                </button>
             </div>
-        </div>
-
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Mahasiswa (Multiple)</label>
-            <p class="text-xs text-gray-500 mb-2">Tahan tombol Ctrl (Windows) atau Command (Mac) untuk memilih lebih
-                dari satu.</p>
-            <select name="students" multiple required
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border h-48">
-                {% for student in students %}
-                <option value="{{ student.id }}">{{ student.nama }} (Sem {{ student.semester }} | {{
-                    student.jumlah_hafalan }} Juz)</option>
-                {% empty %}
-                <option disabled>Tidak ada mahasiswa tersedia (atau sudah masuk kelompok)</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Link WhatsApp Group</label>
-                <input type="url" name="whatsapp_link"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
-                    placeholder="https://chat.whatsapp.com/...">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Link Google Meet</label>
-                <input type="url" name="gmeet_link"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
-                    placeholder="https://meet.google.com/...">
-            </div>
-        </div>
-
-        <div class="pt-4 border-t border-gray-100 flex justify-end">
-            <button type="submit"
-                class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow-lg font-bold">Buat
-                Kelompok</button>
         </div>
     </form>
 </div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectAll = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('.student-checkbox');
+        const searchInput = document.getElementById('studentSearch');
+        const studentItems = document.querySelectorAll('.student-item');
+        const selectedCountLabel = document.getElementById('selectedCount');
+
+        function updateSelectedCount() {
+            const checkedCount = document.querySelectorAll('.student-checkbox:checked').length;
+            selectedCountLabel.textContent = `${checkedCount} Terpilih`;
+
+            if (checkedCount > 0) {
+                selectedCountLabel.classList.remove('bg-blue-50', 'text-blue-600');
+                selectedCountLabel.classList.add('bg-blue-600', 'text-white');
+            } else {
+                selectedCountLabel.classList.add('bg-blue-50', 'text-blue-600');
+                selectedCountLabel.classList.remove('bg-blue-600', 'text-white');
+            }
+        }
+
+        // Select All handler
+        if (selectAll) {
+            selectAll.addEventListener('change', function () {
+                const isChecked = this.checked;
+                checkboxes.forEach(cb => {
+                    if (cb.closest('.student-item').style.display !== 'none') {
+                        cb.checked = isChecked;
+                    }
+                });
+                updateSelectedCount();
+            });
+        }
+
+        // Individual checkbox handler
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', function () {
+                updateSelectedCount();
+
+                // Update selectAll state
+                const visibleCheckboxes = Array.from(checkboxes).filter(c => c.closest('.student-item').style.display !== 'none');
+                const allChecked = visibleCheckboxes.every(c => c.checked);
+                if (selectAll) {
+                    selectAll.checked = allChecked && visibleCheckboxes.length > 0;
+                    selectAll.indeterminate = !allChecked && visibleCheckboxes.some(c => c.checked);
+                }
+            });
+        });
+
+        // Search handler
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                const query = this.value.toLowerCase();
+                studentItems.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Reset select all if items are filtered
+                /*
+                if (selectAll) {
+                    selectAll.checked = false;
+                    selectAll.indeterminate = false;
+                }
+                */
+            });
+        }
+
+        // Initialize count
+        updateSelectedCount();
+    });
+</script>
+{% endblock %}
 {% endblock %}

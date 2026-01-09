@@ -31,6 +31,7 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        next_url = request.POST.get('next')
 
         # Try to get the user first (without authenticating)
         User = get_user_model()
@@ -49,8 +50,15 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            # Redirect based on role
-            if user.role == 'student':
+            
+            # If there's a 'next' parameter, use it
+            if next_url:
+                return redirect(next_url)
+
+            # Redirect based on role / staff status
+            if user.is_staff or user.is_superuser:
+                return redirect('/django-admin/')
+            elif user.role == 'student':
                 return redirect('student_dashboard')
             elif user.role == 'examiner':
                 return redirect('examiner_dashboard')

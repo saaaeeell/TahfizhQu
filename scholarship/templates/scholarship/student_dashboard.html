@@ -3,119 +3,268 @@
 {% block title %}Dashboard Mahasiswa{% endblock %}
 
 {% block content %}
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- Profile Card -->
-    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-        <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Profil Mahasiswa</h2>
-        <div class="space-y-2 text-gray-600">
-            <p>
-                <span class="font-semibold text-gray-700 w-32 inline-block">Nama:</span>
-                {{ student.nama }}
-            </p>
-            <p>
-                <span class="font-semibold text-gray-700 w-32 inline-block">NIM:</span>
-                {{ student.nim }}
-            </p>
-            <p>
-                <span class="font-semibold text-gray-700 w-32 inline-block">Semester:</span>
-                {{ student.semester }}
-            </p>
-            <p>
-                <span class="font-semibold text-gray-700 w-32 inline-block">Kampus:</span>
-                {{ student.kampus }}
-            </p>
-            <p>
-                <span class="font-semibold text-gray-700 w-32 inline-block">Target:</span>
-                <span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-sm font-medium">
-                    {{ student.jumlah_hafalan }} Juz
-                </span>
-            </p>
+<!-- Journey Stepper -->
+<div class="mb-10">
+    <div class="flex items-center mb-6">
+        <div class="bg-teal-100 p-2 rounded-xl mr-3 text-teal-600">
+            <i class="fas fa-map-signs text-xl"></i>
         </div>
+        <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight">Perjalanan Beasiswa Anda</h2>
     </div>
-    <div class="mt-4 border-t pt-2">
-        {% if student.is_verified %}
-        <span class="inline-flex items-center bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-            <svg class="w-4 h-4 mr-1.5" fill="none" class="w-6 h-6" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            Terverifikasi
-        </span>
-        {% else %}
-        <span class="inline-flex items-center bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            Menunggu Verifikasi
-        </span>
-        {% endif %}
+
+    <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 overflow-x-auto">
+        <div class="flex items-start justify-between min-w-[800px]">
+            <!-- Step 1 -->
+            <div class="flex flex-col items-center flex-1">
+                <div
+                    class="w-10 h-10 rounded-full flex items-center justify-center bg-teal-600 text-white shadow-lg z-10">
+                    <i class="fas fa-check text-xs"></i>
+                </div>
+                <p class="mt-3 text-[11px] font-black uppercase tracking-widest text-teal-600">Registrasi</p>
+            </div>
+            <div class="h-1 flex-1 bg-teal-600 mt-5 -mx-4 self-start"></div>
+
+            <!-- Step 2 -->
+            <div class="flex flex-col items-center flex-1">
+                <div
+                    class="w-10 h-10 rounded-full flex items-center justify-center bg-teal-600 text-white shadow-lg z-10">
+                    <i class="fas fa-check text-xs"></i>
+                </div>
+                <p class="mt-3 text-[11px] font-black uppercase tracking-widest text-teal-600">Lengkapi Profil</p>
+            </div>
+            <div
+                class="h-1 flex-1 {% if student.is_verified %}bg-teal-600{% else %}bg-gray-100 animate-pulse{% endif %} mt-5 -mx-4 self-start">
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex flex-col items-center flex-1">
+                <div
+                    class="w-10 h-10 rounded-full flex items-center justify-center {% if student.is_verified %}bg-teal-600 text-white shadow-lg{% else %}bg-gray-100 text-gray-300{% endif %} z-10">
+                    {% if student.is_verified %}<i class="fas fa-check text-xs"></i>{% else %}3{% endif %}
+                </div>
+                <p
+                    class="mt-3 text-[11px] font-black uppercase tracking-widest {% if student.is_verified %}text-teal-600{% else %}text-gray-400{% endif %}">
+                    Verifikasi Admin</p>
+            </div>
+            <div
+                class="h-1 flex-1 {% if groups.exists %}bg-teal-600{% else %}bg-gray-100{% endif %} mt-5 -mx-4 self-start">
+            </div>
+
+            <!-- Step 4 -->
+            <div class="flex flex-col items-center flex-1">
+                <div
+                    class="w-10 h-10 rounded-full flex items-center justify-center {% if groups.exists %}bg-teal-600 text-white shadow-lg{% else %}bg-gray-100 text-gray-300{% endif %} z-10">
+                    {% if groups.exists %}<i class="fas fa-check text-xs"></i>{% else %}4{% endif %}
+                </div>
+                <p
+                    class="mt-3 text-[11px] font-black uppercase tracking-widest {% if groups.exists %}text-teal-600{% else %}text-gray-400{% endif %}">
+                    Kelompok Ujian</p>
+            </div>
+            <div
+                class="h-1 flex-1 {% if evaluations.exists %}bg-teal-600{% else %}bg-gray-100{% endif %} mt-5 -mx-4 self-start">
+            </div>
+
+            <!-- Step 5 -->
+            <div class="flex flex-col items-center flex-1">
+                <div
+                    class="w-10 h-10 rounded-full flex items-center justify-center {% if evaluations.exists %}bg-teal-600 text-white shadow-lg{% else %}bg-gray-100 text-gray-300{% endif %} z-10">
+                    {% if evaluations.exists %}<i class="fas fa-check text-xs"></i>{% else %}5{% endif %}
+                </div>
+                <p
+                    class="mt-3 text-[11px] font-black uppercase tracking-widest {% if evaluations.exists %}text-teal-600{% else %}text-gray-400{% endif %}">
+                    Evaluasi</p>
+            </div>
+            <div
+                class="h-1 flex-1 {% if evaluations.0.is_published %}bg-teal-600{% else %}bg-gray-100{% endif %} mt-5 -mx-4 self-start">
+            </div>
+
+            <!-- Step 6 -->
+            <div class="flex flex-col items-center flex-1">
+                <div
+                    class="w-10 h-10 rounded-full flex items-center justify-center {% if evaluations.0.is_published %}bg-teal-600 text-white shadow-lg{% else %}bg-gray-100 text-gray-300{% endif %} z-10">
+                    {% if evaluations.0.is_published %}<i class="fas fa-flag-checkered text-xs"></i>{% else %}6{% endif
+                    %}
+                </div>
+                <p
+                    class="mt-3 text-[11px] font-black uppercase tracking-widest {% if evaluations.0.is_published %}text-teal-600{% else %}text-gray-400{% endif %}">
+                    Hasil Akhir</p>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Group Info Card -->
-<div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-    <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Informasi Kelompok</h2>
-    {% for group in groups %}
-    <div class="bg-blue-50 p-4 rounded-lg mb-4">
-        <h3 class="font-bold text-blue-900 text-lg">{{ group.nama_group }}</h3>
-        <p class="text-sm text-gray-600 mb-2">
-            Penguji: <span class="font-medium">{{ group.examiner.nama }}</span>
-        </p>
-        <div class="flex space-x-2 mt-3">
-            {% if group.whatsapp_link %}
-            <a href="{{ group.whatsapp_link }}" target="_blank"
-                class="flex-1 bg-green-500 hover:bg-green-600 text-white text-center py-2 rounded text-sm font-medium transition">
-                WhatsApp Group
-            </a>
-            {% endif %}
-            {% if group.gmeet_link %}
-            <a href="{{ group.gmeet_link }}" target="_blank"
-                class="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-center py-2 rounded text-sm font-medium transition">
-                Google Meet
-            </a>
-            {% endif %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+    <!-- Profile Card -->
+    <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group">
+        <div
+            class="absolute top-0 right-0 w-32 h-32 bg-teal-50 rounded-bl-[100px] -mr-8 -mt-8 transition-transform group-hover:scale-110">
+        </div>
+        <div class="relative z-10">
+            <div class="flex justify-between items-start mb-6">
+                <h2 class="text-xl font-black text-gray-900 uppercase tracking-wider">Profil Mahasiswa</h2>
+                {% if student.is_verified %}
+                <span
+                    class="inline-flex items-center bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase">
+                    <i class="fas fa-check-circle mr-1.5"></i> Terverifikasi
+                </span>
+                {% else %}
+                <span
+                    class="inline-flex items-center bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase animate-pulse">
+                    <i class="fas fa-clock mr-1.5"></i> Menunggu Verifikasi
+                </span>
+                {% endif %}
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center p-3 bg-gray-50 rounded-2xl border border-gray-100">
+                    <div
+                        class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-teal-500 shadow-sm mr-4">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nama Lengkap</p>
+                        <p class="text-sm font-black text-gray-800">{{ student.nama }}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-3 bg-gray-50 rounded-2xl border border-gray-100">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">NIM</p>
+                        <p class="text-sm font-black text-gray-800">{{ student.nim }}</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-2xl border border-gray-100">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Semester</p>
+                        <p class="text-sm font-black text-gray-800">{{ student.semester }}</p>
+                    </div>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-2xl border border-gray-100">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Universitas / Kampus</p>
+                    <p class="text-sm font-black text-gray-800">{{ student.kampus }}</p>
+                </div>
+                <div class="p-3 bg-teal-600 rounded-2xl text-white shadow-lg overflow-hidden relative">
+                    <i class="fas fa-book-quran absolute -right-4 -bottom-4 text-6xl opacity-10"></i>
+                    <p class="text-[10px] font-bold opacity-80 uppercase tracking-widest">Target Hafalan</p>
+                    <p class="text-xl font-black">{{ student.jumlah_hafalan }} JUZ</p>
+                </div>
+            </div>
         </div>
     </div>
-    {% empty %}
-    <p class="text-gray-500 italic">Anda belum masuk ke dalam kelompok manapun.</p>
-    {% endfor %}
+
+    <!-- Group Info Card -->
+    <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+        <h2 class="text-xl font-black text-gray-900 mb-6 uppercase tracking-wider">Informasi Kelompok</h2>
+        {% for group in groups %}
+        <div class="bg-blue-50 border border-blue-100 p-6 rounded-3xl relative overflow-hidden mb-4 last:mb-0">
+            <div class="absolute top-0 right-0 p-4 opacity-10">
+                <i class="fas fa-users-viewfinder text-5xl text-blue-900"></i>
+            </div>
+            <h3 class="font-black text-blue-900 text-xl leading-tight mb-2">{{ group.nama_group }}</h3>
+            <div class="flex items-center text-sm text-blue-700/70 mb-6">
+                <i class="fas fa-user-tie mr-2"></i>
+                <span class="font-bold">Penguji: {{ group.examiner.nama }}</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                {% if group.whatsapp_link %}
+                <a href="{{ group.whatsapp_link }}" target="_blank"
+                    class="bg-white hover:bg-green-50 text-green-600 text-center py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-sm border border-green-100 flex items-center justify-center">
+                    <i class="fab fa-whatsapp mr-2 text-lg"></i> WA Group
+                </a>
+                {% endif %}
+                {% if group.gmeet_link %}
+                <a href="{{ group.gmeet_link }}" target="_blank"
+                    class="bg-white hover:bg-blue-50 text-blue-600 text-center py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition shadow-sm border border-blue-100 flex items-center justify-center">
+                    <i class="fas fa-video mr-2 text-lg"></i> Video Call
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-10">
+            <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300">
+                <i class="fas fa-user-clock text-2xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm font-medium italic">Anda belum memiliki kelompok.<br>Tunggu verifikasi dan
+                penugasan dari Admin.</p>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
 <!-- Results Card (Full Width) -->
-<div class="md:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-    <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Hasil Evaluasi</h2>
+<div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mb-8">
+    <div class="flex items-center mb-8">
+        <div class="bg-purple-100 p-2 rounded-xl mr-3 text-purple-600">
+            <i class="fas fa-award text-xl"></i>
+        </div>
+        <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight">Hasil Evaluasi Akhir</h2>
+    </div>
+
     {% for eval in evaluations %}
     {% if eval.is_published %}
     <div
-        class="flex flex-col md:flex-row justify-between items-center bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
-        <div>
-            <p class="text-gray-600 text-sm">
-                Diuji oleh: <span class="font-semibold">{{ eval.examiner.nama }}</span>
-            </p>
-            <p class="text-gray-500 text-xs">{{ eval.created_at|date:"d M Y" }}</p>
-        </div>
-        <div class="text-center my-2 md:my-0">
-            <p class="text-sm text-gray-500 uppercase tracking-wide">Nilai WSM</p>
-            <p class="text-3xl font-bold text-gray-800">{{ eval.wsm_score }}</p>
-        </div>
-        <div>
-            {% if student.status_seleksi == 'Lulus' %}
-            <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-bold text-sm">LULUS</span>
-            {% elif student.status_seleksi == 'Tidak Lulus' %}
-            <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full font-bold text-sm">TIDAK LULUS</span>
-            {% else %}
-            <span class="bg-gray-100 text-gray-800 px-4 py-2 rounded-full font-bold text-sm">PROSES</span>
-            {% endif %}
+        class="bg-gradient-to-br from-gray-50 to-white p-8 rounded-3xl border border-gray-200 relative overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Divalidasi Oleh</p>
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mr-2">
+                        <i class="fas fa-user-shield text-xs"></i>
+                    </div>
+                    <span class="text-sm font-black text-gray-800">{{ eval.examiner.nama }}</span>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-2 font-bold">{{ eval.created_at|date:"d F Y" }}</p>
+            </div>
+            <div class="text-center bg-white py-6 rounded-3xl shadow-inner border border-gray-50 relative">
+                <i class="fas fa-star absolute top-2 left-2 text-yellow-400/20 text-4xl"></i>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Skor Akhir (WSM)</p>
+                <p class="text-5xl font-black text-gray-900 tracking-tighter">{{ eval.wsm_score }}</p>
+            </div>
+            <div class="flex justify-center md:justify-end">
+                {% if student.status_seleksi == 'Lulus' %}
+                <div class="text-center group">
+                    <div
+                        class="bg-green-100 text-green-700 w-24 h-24 rounded-full flex items-center justify-center shadow-lg shadow-green-100 mb-3 transform transition group-hover:rotate-12">
+                        <i class="fas fa-medal text-4xl"></i>
+                    </div>
+                    <span class="text-xs font-black text-green-700 uppercase tracking-widest">LULUS SELEKSI</span>
+                </div>
+                {% elif student.status_seleksi == 'Tidak Lulus' %}
+                <div class="text-center group">
+                    <div
+                        class="bg-red-100 text-red-700 w-24 h-24 rounded-full flex items-center justify-center shadow-lg shadow-red-100 mb-3 transform transition group-hover:scale-110">
+                        <i class="fas fa-times-circle text-4xl"></i>
+                    </div>
+                    <span class="text-xs font-black text-red-700 uppercase tracking-widest">TIDAK LULUS</span>
+                </div>
+                {% else %}
+                <div class="text-center group">
+                    <div
+                        class="bg-gray-100 text-gray-500 w-24 h-24 rounded-full flex items-center justify-center shadow-lg shadow-gray-100 mb-3 animate-pulse">
+                        <i class="fas fa-sync text-4xl"></i>
+                    </div>
+                    <span class="text-xs font-black text-gray-500 uppercase tracking-widest">SEDANG PROSES</span>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
     {% else %}
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-yellow-700">
-        <p class="font-medium">Hasil evaluasi belum diumumkan oleh Admin.</p>
-        <p class="text-sm">Silakan cek kembali nanti.</p>
+    <div class="bg-amber-50 border border-amber-100 p-10 rounded-3xl text-center">
+        <div
+            class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-amber-500">
+            <i class="fas fa-bullhorn text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-extrabold text-amber-900 mb-2">Hasil Segera Diumumkan!</h3>
+        <p class="text-amber-800/70 text-sm font-medium max-w-sm mx-auto">Tahap evaluasi telah selesai divalidasi oleh
+            penguji. Admin sedang memproses pengumuman akhir.</p>
     </div>
     {% endif %}
     {% empty %}
-    <p class="text-gray-500 italic text-center py-4">Belum ada data evaluasi.</p>
+    <div class="bg-gray-50 border border-dashed border-gray-200 p-20 rounded-3xl text-center">
+        <div
+            class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-gray-200">
+            <i class="fas fa-graduation-cap text-3xl"></i>
+        </div>
+        <p class="text-gray-400 font-bold italic">Belum ada data evaluasi yang tersedia.</p>
+    </div>
     {% endfor %}
 </div>
 </div>

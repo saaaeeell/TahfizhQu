@@ -64,7 +64,7 @@ ROOT_URLCONF = 'tahfizhqu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,9 +100,9 @@ AUTH_PASSWORD_VALIDATORS = []
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'id'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 
@@ -114,6 +114,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
@@ -148,5 +149,60 @@ UNFOLD = {
             "900": "30 58 138",
             "950": "23 37 84",
         },
+    },
+    "TABS": [
+        {
+            "models": [
+                "scholarship.user",
+                "scholarship.student",
+            ],
+            "items": [
+                {
+                    "title": "Data Utama",
+                    "link": "/django-admin/scholarship/user/",
+                },
+            ],
+        },
+    ],
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": "Manajemen Pengguna",
+                "items": [
+                    {
+                        "title": "Akun Pengguna",
+                        "icon": "people",
+                        "link": "/django-admin/scholarship/user/",
+                    },
+                ],
+            },
+            {
+                "title": "Data Beasiswa",
+                "items": [
+                    {
+                        "title": "Mahasiswa",
+                        "icon": "school",
+                        "link": "/django-admin/scholarship/student/",
+                    },
+                    {
+                        "title": "Penguji",
+                        "icon": "person_search",
+                        "link": "/django-admin/scholarship/examiner/",
+                    },
+                    {
+                        "title": "Kelompok",
+                        "icon": "group",
+                        "link": "/django-admin/scholarship/group/",
+                    },
+                    {
+                        "title": "Evaluasi",
+                        "icon": "assignment",
+                        "link": "/django-admin/scholarship/evaluation/",
+                    },
+                ],
+            },
+        ],
     },
 }

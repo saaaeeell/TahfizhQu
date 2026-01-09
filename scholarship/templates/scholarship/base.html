@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}TahfizhQu{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
@@ -17,7 +18,7 @@
 </head>
 
 <body class="{% block body_class %}bg-gray-100 font-sans antialiased h-screen flex overflow-hidden{% endblock %}">
-{% block body_content %}
+    {% block body_content %}
 
     <!-- Sidebar -->
     <aside class="w-64 bg-blue-900 text-white flex-shrink-0 hidden md:flex flex-col transition-all duration-300">
@@ -30,7 +31,8 @@
                 <li>
                     <a href="{% url 'home' %}"
                         class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition-colors {% if request.path == '/' %}bg-blue-800{% endif %}">
-                        <span class="font-medium">Home</span>
+                        <i class="fas fa-home w-6"></i>
+                        <span class="ml-3 font-medium">Home</span>
                     </a>
                 </li>
 
@@ -39,45 +41,52 @@
                 <li>
                     <a href="{% url 'student_dashboard' %}"
                         class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition-colors {% if 'dashboard' in request.path %}bg-blue-800{% endif %}">
-                        <span class="font-medium">Dashboard</span>
+                        <i class="fas fa-columns w-6"></i>
+                        <span class="ml-3 font-medium">Dashboard</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'apply_scholarship' %}"
                         class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition-colors {% if 'apply' in request.path %}bg-blue-800{% endif %}">
-                        <span class="font-medium">Apply Scholarship</span>
+                        <i class="fas fa-paper-plane w-6 text-teal-400"></i>
+                        <span class="ml-3 font-medium">Apply Scholarship</span>
                     </a>
                 </li>
                 {% elif user.role == 'examiner' %}
                 <li>
                     <a href="{% url 'examiner_dashboard' %}"
                         class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition-colors {% if 'dashboard' in request.path %}bg-blue-800{% endif %}">
-                        <span class="font-medium">Dashboard</span>
+                        <i class="fas fa-tasks w-6 text-blue-400"></i>
+                        <span class="ml-3 font-medium">Dashboard</span>
                     </a>
                 </li>
                 {% elif user.role == 'admin' %}
                 <li>
                     <a href="{% url 'admin_dashboard' %}"
                         class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition-colors {% if 'dashboard' in request.path %}bg-blue-800{% endif %}">
-                        <span class="font-medium">Dashboard</span>
+                        <i class="fas fa-chart-line w-6 text-yellow-400"></i>
+                        <span class="ml-3 font-medium">Dashboard</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'verification_list' %}"
                         class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition-colors {% if 'verification' in request.path %}bg-blue-800{% endif %}">
-                        <span class="font-medium">Verifikasi</span>
+                        <i class="fas fa-user-check w-6"></i>
+                        <span class="ml-3 font-medium">Verifikasi</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'create_group' %}"
                         class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition-colors {% if 'group' in request.path %}bg-blue-800{% endif %}">
-                        <span class="font-medium">Create Group</span>
+                        <i class="fas fa-users w-6"></i>
+                        <span class="ml-3 font-medium">Create Group</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'create_examiner' %}"
                         class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition-colors {% if 'create_examiner' in request.path %}bg-blue-800{% endif %}">
-                        <span class="font-medium">Create Examiner</span>
+                        <i class="fas fa-user-plus w-6"></i>
+                        <span class="ml-3 font-medium">Create Examiner</span>
                     </a>
                 </li>
                 {% endif %}
@@ -85,13 +94,15 @@
                 <li>
                     <a href="{% url 'login' %}"
                         class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition-colors">
-                        <span class="font-medium">Login</span>
+                        <i class="fas fa-sign-in-alt w-6"></i>
+                        <span class="ml-3 font-medium">Login</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'register_student' %}"
                         class="flex items-center px-4 py-3 rounded-lg hover:bg-blue-800 transition-colors">
-                        <span class="font-medium">Register</span>
+                        <i class="fas fa-user-edit w-6"></i>
+                        <span class="ml-3 font-medium">Register</span>
                     </a>
                 </li>
                 {% endif %}
@@ -156,7 +167,8 @@
             </div>
         </main>
     </div>
-{% endblock %}
+    {% endblock %}
+    {% block extra_js %}{% endblock %}
 </body>
 
 </html>

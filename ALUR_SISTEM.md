@@ -3,76 +3,78 @@
 Dokumen ini menjelaskan alur lengkap penggunaan aplikasi TahfizhQu menggunakan **Satu Pintu Admin Dashboard** dan **Verifikasi Email Mandiri**.
 
 ## 1. Role (Peran Pengguna)
-Sistem ini memiliki 3 role utama:
-- **Admin**: Pengelola utama sistem (via Dashboard Admin).
+Sistem memiliki 4 entitas pengguna:
+- **Admin (Panitia)**: Pengelola operasional beasiswa (Dashboard `/admin/dashboard/`).
+- **Superuser (IT System)**: Pengelola teknis basis data (Dashboard `/django-admin/`).
 - **Student (Mahasiswa)**: Pendaftar beasiswa.
-- **Examiner (Penguji)**: Dosen/Ustadz yang menguji halafan.
+- **Examiner (Penguji)**: Dosen/Ustadz yang melakukan penilaian hafalan.
 
 ---
 
-## 2. Alur Registrasi & Aktivasi Akun
-Demi keamanan dan kemudahan, sistem menggunakan verifikasi email otomatis.
+## 2. Alur Registrasi & Aktivasi Akun (Student)
+Sistem menggunakan verifikasi email otomatis untuk memastikan validitas pendaftar.
 
 1. **Mahasiswa Mendaftar** (`/register`):
    - Mengisi Username, Email, dan Password.
-   - **Status Akun**: `Inactive` (Tidak bisa login).
-   - Sistem mengirimkan **Email Verifikasi** (Lihat di Console/Terminal).
-
-2. **Verifikasi Mandiri**:
+   - **Status Akun**: `Inactive` (Belum bisa login).
+   - Sistem mengirimkan email aktivasi (dikirim via terminal di lingkungan dev).
+2. **Aktivasi Mandiri**:
    - Mahasiswa mengklik link aktivasi dari email.
-   - **Status Akun**: `Active` (Otomatis Aktif).
-   - Mahasiswa login ke sistem.
+   - **Status Akun**: `Active` (Dapat login).
 
 ---
 
-## 3. Alur Pengajuan Beasiswa
+## 3. Alur Pengajuan & Verifikasi Beasiswa
+Mahasiswa yang sudah aktif harus melengkapi profil beasiswa.
 
-1. **Pengisian Data (`/apply`)**:
-   - Setelah login, mahasiswa diarahkan mengisi formulir data diri & hafalan.
-   - Data tersimpan dan masuk antrian verifikasi.
-
-2. **Verifikasi Admin (Dashboard Admin)**:
-   - Admin login dan masuk ke **Dashboard Admin**.
-   - Mengklik menu / tombol **Verifikasi Data**.
-   - Admin melihat daftar pendaftar baru.
-   - Admin menekan tombol **Verify** pada mahasiswa yang datanya valid.
-   - **Status Student**: `Verified` (Siap untuk ujian).
+1. **Pengisian Formulir (`/apply`)**:
+   - Mahasiswa memasukkan data diri: NIM, IPK, Semester, Jumlah Juz, dll.
+   - Data otomatis tersimpan dalam status **Proses**.
+2. **Verifikasi Panitia (Admin Dashboard)**:
+   - Admin memeriksa data mahasiswa di menu **Verifikasi Data**.
+   - Admin melakukan verifikasi berkas/data.
+   - **Status Mahasiswa**: `Verified` (Hanya yang terverifikasi yang bisa dikelompokkan dan diuji).
 
 ---
 
-## 4. Manajemen Penguji & Kelompok (Dashboard Admin)
+## 4. Manajemen Penguji & Kelompok (Admin Dashboard)
 
-1.  **Tambah Penguji (Create Examiner)**:
-    -   Admin membuat akun untuk Dosen/Ustadz Penguji.
-    -   Menu: **Tambah Penguji**.
-    -   Mengisi: Username, Nama, Email, No. HP.
-
-2.  **Grouping / Pembagian Kelompok**:
-    -   Di Dashboard, Admin memilih menu **Buat Kelompok**.
-    -   Menentukan Nama Kelompok dan memilih **Examiner** (Penguji) yang sudah dibuat.
-    -   Memasukkan mahasiswa yang sudah diverifikasi ke dalam kelompok tersebut.
-
----
-
-## 5. Alur Ujian (Exam Flow)
-
-1.  **Proses Ujian (Examiner)**:
-    -   Penguji login dan masuk ke **Dashboard Examiner**.
-    -   Mengklik nama mahasiswa dalam kelompoknya.
-    -   Mengisi nilai (Makhorijul Huruf, Tajwid, Kelancaran).
-    -   Menyimpan nilai.
+1.  **Pembuatan Akun Penguji**:
+    -   Admin membuat akun Penguji secara manual di Dashboard.
+    -   **Ketentuan**: Email harus menggunakan domain `@app.ocm`.
+    -   Sistem otomatis membuatkan User dengan role `examiner`.
+2.  **Manajemen Kelompok (Grouping)**:
+    -   Admin membuat kelompok ujian melalui menu **Buat Kelompok**.
+    -   Admin menentukan **Nama Kelompok**, memilih **Penguji**, dan melampirkan link komunikasi (**WhatsApp** & **GMeet**).
+    -   Admin memilih mahasiswa yang sudah `Verified` untuk dimasukkan ke kelompok.
 
 ---
 
-## 6. Alur Penentuan & Pengumuman
+## 5. Alur Ujian & Penilaian (Examiner)
 
-1. **Monitoring Nilai (Dashboard Admin)**:
-   - Admin dapat melihat statistik nilai masuk di Dashboard (Card "Evaluasi Masuk").
-   - Sistem otomatis menghitung skor akhir (**WSM Score**).
+1.  **Input Nilai**:
+    -   Penguji login dan melihat daftar kelompok serta mahasiswa di Dashboard-nya.
+    -   Penguji memberikan skor (0-100) untuk kriteria:
+        -   Makhorijul Huruf
+        -   Tajwid
+        -   Kelancaran
+2.  **Perhitungan Otomatis (WSM)**:
+    -   Sistem menghitung **WSM Score** secara otomatis saat nilai disimpan.
+    -   **Kriteria & Bobot (20% masing-masing)**:
+        1. Makhorijul Huruf (Input Penguji)
+        2. Tajwid (Input Penguji)
+        3. Kelancaran (Input Penguji)
+        4. Jumlah Hafalan (Normalisasi: `Juz / 30 * 100`)
+        5. IPK (Normalisasi: `IPK / 4.0 * 100`)
 
-2. **Pengumuman (Dashboard Admin)**:
-   - Jika seleksi selesai, Admin menekan tombol **Umumkan Hasil** di Dashboard.
-   - Status nilai berubah menjadi *Published*.
+---
 
-3. **Hasil Seleksi (Student)**:
-   - Mahasiswa login dan melihat status kelulusan di Dashboard mereka masing-masing.
+## 6. Pengumuman Hasil (Admin Dashboard)
+
+1.  **Monitoring**:
+    -   Admin memantau jumlah evaluasi yang masuk melalui statistik dashboard.
+2.  **Publikasi**:
+    -   Admin menekan tombol **Umumkan Hasil**.
+    -   Semua skor seleksi akan diterbitkan dan dapat dilihat oleh mahasiswa.
+3.  **Visualisasi Mahasiswa**:
+    -   Mahasiswa login ke dashboard dan melihat hasil seleksi akhir mereka.

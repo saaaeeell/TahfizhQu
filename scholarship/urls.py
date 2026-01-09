@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
@@ -9,6 +10,7 @@ urlpatterns = [
     path('student/dashboard/', views.student_dashboard, name='student_dashboard'),
     path('examiner/dashboard/', views.examiner_dashboard, name='examiner_dashboard'),
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin/', RedirectView.as_view(url='dashboard/', permanent=True)),
     path('admin/verification/', views.verification_list, name='verification_list'),
     path('admin/verify/<int:student_id>/', views.verify_student, name='verify_student'),
     path('admin/create-examiner/', views.create_examiner, name='create_examiner'),

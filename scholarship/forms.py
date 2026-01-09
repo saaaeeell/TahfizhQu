@@ -46,13 +46,19 @@ class ExaminerCreationForm(forms.ModelForm):
         model = Examiner
         fields = ['nama', 'email', 'nomor_telepon']
         
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and not email.endswith('@app.ocm'):
+            raise forms.ValidationError("Email harus menggunakan domain @app.ocm")
+        return email
+
     def save(self, commit=True):
         examiner = super().save(commit=False)
         
         # Create User for Examiner
         username = self.cleaned_data['username']
         email = self.cleaned_data['email']
-        password = 'password123' # Default password, or maybe generate one
+        password = 'password123' # Default password
         
         user = User.objects.create_user(username=username, email=email, password=password)
         user.role = 'examiner'
@@ -96,8 +102,34 @@ class ScholarshipApplicationForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = ['nama', 'tanggal_lahir', 'kampus', 'asal_sekolah', 'fakultas', 'jurusan', 'jumlah_hafalan', 'nim', 'ipk', 'semester']
+        labels = {
+            'nama': 'Nama Lengkap',
+            'tanggal_lahir': 'Tanggal Lahir',
+            'kampus': 'Asal Kampus',
+            'asal_sekolah': 'Pendidikan Terakhir (Sekolah Asal)',
+            'fakultas': 'Fakultas',
+            'jurusan': 'Program Studi / Jurusan',
+            'jumlah_hafalan': 'Jumlah Juz Hafalan',
+            'nim': 'NIM (Nomor Induk Mahasiswa)',
+            'ipk': 'IPK Terakhir',
+            'semester': 'Semester Saat Ini',
+        }
         widgets = {
-            'tanggal_lahir': forms.DateInput(attrs={'type': 'date'}),
+            'tanggal_lahir': forms.DateInput(attrs={'type': 'date', 'class': 'w-full p-2 border rounded'}),
+            'nama': forms.TextInput(attrs={'placeholder': 'Contoh: Ahmad Abdullah', 'class': 'w-full p-2 border rounded'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'ahm@example.com', 'class': 'w-full p-2 border rounded'}),
+            'kampus': forms.TextInput(attrs={'placeholder': 'Contoh: UMJ / UI / ITB', 'class': 'w-full p-2 border rounded'}),
+            'asal_sekolah': forms.TextInput(attrs={'placeholder': 'Contoh: MAN 1 Jakarta', 'class': 'w-full p-2 border rounded'}),
+            'fakultas': forms.TextInput(attrs={'placeholder': 'Contoh: Teknik', 'class': 'w-full p-2 border rounded'}),
+            'jurusan': forms.TextInput(attrs={'placeholder': 'Contoh: Informatika', 'class': 'w-full p-2 border rounded'}),
+            'jumlah_hafalan': forms.NumberInput(attrs={'placeholder': 'Contoh: 30', 'class': 'w-full p-2 border rounded'}),
+            'nim': forms.TextInput(attrs={'placeholder': 'Nomor Induk Mahasiswa', 'class': 'w-full p-2 border rounded'}),
+            'ipk': forms.NumberInput(attrs={'step': '0.01', 'placeholder': 'Skala 4.00', 'class': 'w-full p-2 border rounded'}),
+            'semester': forms.NumberInput(attrs={'min': '1', 'max': '8', 'placeholder': '1-8', 'class': 'w-full p-2 border rounded'}),
+        }
+        help_texts = {
+            'jumlah_hafalan': 'Masukkan angka jumlah juz yang sudah dihafal.',
+            'ipk': 'Gunakan titik (.) sebagai pemisal desimal.',
         }
 
 class EvaluationForm(forms.ModelForm):

@@ -3,32 +3,172 @@
 {% block title %}Pendaftaran Beasiswa{% endblock %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto bg-white p-8 border border-gray-300 rounded-lg shadow-md mt-10 mb-10">
-    <h2 class="text-2xl font-bold mb-6 text-center text-teal-700">Formulir Pendaftaran Beasiswa Tahfizh</h2>
-    <form method="post">
-        {% csrf_token %}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {% for field in form %}
-            <div class="mb-4 {% if field.name == 'asal_sekolah' or field.name == 'nama' %}md:col-span-2{% endif %}">
-                <label for="{{ field.id_for_label }}" class="block text-gray-700 font-bold mb-2">{{ field.label
-                    }}</label>
-                {{ field }}
-                {% if field.help_text %}
-                <p class="text-gray-600 text-xs italic">{{ field.help_text }}</p>
-                {% endif %}
-                {% for error in field.errors %}
-                <p class="text-red-500 text-xs italic">{{ error }}</p>
-                {% endfor %}
+<div class="max-w-4xl mx-auto py-10 px-4">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        <div class="bg-teal-700 py-8 px-8 text-center">
+            <h2 class="text-3xl font-extrabold text-white">Formulir Pendaftaran Beasiswa</h2>
+            <p class="text-teal-100 mt-2">Silakan lengkapi data diri Anda dengan sebenar-benarnya.</p>
+        </div>
+
+        <form method="post" class="p-8 space-y-10">
+            {% csrf_token %}
+
+            <!-- Section 1: Informasi Pribadi -->
+            <section>
+                <div class="flex items-center mb-6 pb-2 border-b border-gray-100">
+                    <div class="bg-teal-100 p-2 rounded-lg mr-4 text-teal-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800">Informasi Pribadi</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label for="{{ form.nama.id_for_label }}"
+                            class="block text-sm font-semibold text-gray-700 mb-1">
+                            {{ form.nama.label }}
+                        </label>
+                        {{ form.nama }}
+                        {% if form.nama.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.nama.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.tanggal_lahir.id_for_label }}"
+                            class="block text-sm font-semibold text-gray-700 mb-1">
+                            {{ form.tanggal_lahir.label }}
+                        </label>
+                        {{ form.tanggal_lahir }}
+                        {% if form.tanggal_lahir.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.tanggal_lahir.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.asal_sekolah.id_for_label }}"
+                            class="block text-sm font-semibold text-gray-700 mb-1">
+                            {{ form.asal_sekolah.label }}
+                        </label>
+                        {{ form.asal_sekolah }}
+                        {% if form.asal_sekolah.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.asal_sekolah.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Data Akademik -->
+            <section>
+                <div class="flex items-center mb-6 pb-2 border-b border-gray-100">
+                    <div class="bg-blue-100 p-2 rounded-lg mr-4 text-blue-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800">Data Akademik</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.nim.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-1">
+                            {{ form.nim.label }}
+                        </label>
+                        {{ form.nim }}
+                        {% if form.nim.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.nim.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.kampus.id_for_label }}"
+                            class="block text-sm font-semibold text-gray-700 mb-1">
+                            {{ form.kampus.label }}
+                        </label>
+                        {{ form.kampus }}
+                        {% if form.kampus.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.kampus.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.fakultas.id_for_label }}"
+                            class="block text-sm font-semibold text-gray-700 mb-1">
+                            {{ form.fakultas.label }}
+                        </label>
+                        {{ form.fakultas }}
+                        {% if form.fakultas.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.fakultas.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.jurusan.id_for_label }}"
+                            class="block text-sm font-semibold text-gray-700 mb-1">
+                            {{ form.jurusan.label }}
+                        </label>
+                        {{ form.jurusan }}
+                        {% if form.jurusan.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.jurusan.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.semester.id_for_label }}"
+                            class="block text-sm font-semibold text-gray-700 mb-1">
+                            {{ form.semester.label }}
+                        </label>
+                        {{ form.semester }}
+                        {% if form.semester.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.semester.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.ipk.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-1">
+                            {{ form.ipk.label }}
+                        </label>
+                        {{ form.ipk }}
+                        {% if form.ipk.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.ipk.errors.0 }}</p>
+                        {% endif %}
+                        <p class="text-gray-500 text-[10px] mt-1">{{ form.ipk.help_text }}</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Data Tahfizh -->
+            <section>
+                <div class="flex items-center mb-6 pb-2 border-b border-gray-100">
+                    <div class="bg-amber-100 p-2 rounded-lg mr-4 text-amber-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800">Kapasitas Hafalan</h3>
+                </div>
+                <div class="max-w-xs">
+                    <label for="{{ form.jumlah_hafalan.id_for_label }}"
+                        class="block text-sm font-semibold text-gray-700 mb-1">
+                        {{ form.jumlah_hafalan.label }}
+                    </label>
+                    {{ form.jumlah_hafalan }}
+                    {% if form.jumlah_hafalan.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.jumlah_hafalan.errors.0 }}</p>
+                    {% endif %}
+                    <p class="text-gray-500 text-[10px] mt-1">{{ form.jumlah_hafalan.help_text }}</p>
+                </div>
+            </section>
+
+            <div class="pt-6">
+                <button type="submit"
+                    class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transform transition hover:-translate-y-1 active:scale-95 text-lg">
+                    Kirim Pendaftaran Beasiswa
+                </button>
+                <p class="text-center text-gray-500 text-sm mt-4 italic">
+                    Pastikan seluruh data sudah diisi dengan benar sebelum menekan tombol kirim.
+                </p>
             </div>
-            {% endfor %}
-        </div>
-        <div class="flex items-center justify-between mt-6">
-            <button
-                class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline w-full"
-                type="submit">
-                Kirim Pendaftaran
-            </button>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 {% endblock %}

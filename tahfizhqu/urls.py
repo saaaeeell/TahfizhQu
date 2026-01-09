@@ -21,7 +21,7 @@ from scholarship import views
 
 urlpatterns = [
     path('', include('scholarship.urls')),
-    path('admin/', admin.site.urls),
+    path('django-admin/', admin.site.urls),
     path('login/', views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
 ]
