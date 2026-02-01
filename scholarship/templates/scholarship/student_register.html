@@ -1,0 +1,12 @@
+{% extends 'scholarship/base.html' %}
+
+{% block title %}Student Registration{% endblock %}
+
+{% block content %}
+<h2>Daftar Beasiswa Tahfizh</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Daftar</button>
+</form>
+{% endblock %}

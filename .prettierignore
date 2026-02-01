@@ -1,0 +1,2 @@
+# Abaikan semua file html karena sering pakai template engine
+*.html

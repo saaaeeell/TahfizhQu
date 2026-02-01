@@ -1,0 +1,100 @@
+{% extends 'scholarship/base.html' %}
+
+{% block title %}Verifikasi Mahasiswa{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Verifikasi Data Mahasiswa</h2>
+
+    <!-- Unverified Students -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-100 mb-8">
+        <div class="px-6 py-4 border-b border-gray-100 bg-red-50">
+            <h3 class="font-bold text-red-700">Perlu Verifikasi ({{ students_unverified.count }})</h3>
+        </div>
+        <div class="p-6">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nama</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                NIM</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Data</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for student in students_unverified %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ student.nama }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ student.nim }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <div>IPK: {{ student.ipk }}</div>
+                                <div>Hafalan: {{ student.jumlah_hafalan }} Juz</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <a href="{% url 'verify_student' student.id %}"
+                                    class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
+                                    onclick="return confirm('Verifikasi data mahasiswa ini?')">
+                                    Verifikasi
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 text-center text-gray-500 italic">Tidak ada mahasiswa yang
+                                perlu verifikasi.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verified Students -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-100">
+        <div class="px-6 py-4 border-b border-gray-100 bg-green-50">
+            <h3 class="font-bold text-green-700">Sudah Terverifikasi ({{ students_verified.count }})</h3>
+        </div>
+        <div class="p-6">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nama</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                NIM</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for student in students_verified %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ student.nama }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ student.nim }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Approved
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="px-6 py-4 text-center text-gray-500 italic">Belum ada mahasiswa
+                                terverifikasi.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'scholarship/base.html' %}
+
+{% block title %}Daftar Penguji{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Daftar Penguji & Evaluasi</h2>
+<ul class="space-y-3">
+  {% for e in examiners %}
+  <li class="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+    <div>
+      <a href="{% url 'admin_examiner_detail' e.id %}" class="font-semibold text-lg">{{ e.nama }}</a>
+      <div class="text-sm text-gray-500">Email: {{ e.email }}</div>
+    </div>
+    <div class="text-sm bg-green-50 text-green-700 px-3 py-1 rounded-full">{{ e.evaluation_count }} evaluasi</div>
+  </li>
+  {% empty %}
+  <li class="text-gray-500 italic">Belum ada penguji.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

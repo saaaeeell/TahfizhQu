@@ -1,0 +1,16 @@
+--- LOG CLEARED ---
+Cleared on 2026-02-01 by GitHub Copilot.
+Backup saved to: login_debug_backup_2026-02-01.txt
+Login attempt: username=mira, next_url=
+User mira does not exist
+Login attempt: username=mira, next_url=
+User mira does not exist
+Auth failed for mira
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Indy, next_url=
+Auth success for Indy. Role=examiner, Staff=False, Hero=False
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True

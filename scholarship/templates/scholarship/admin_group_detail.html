@@ -1,0 +1,30 @@
+{% extends 'scholarship/base.html' %}
+
+{% block title %}Detail Kelompok - {{ group.nama_group }}{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">{{ group.nama_group }}</h2>
+<p class="text-sm text-gray-500 mb-4">Penguji: {{ group.examiner.nama }}</p>
+<table class="w-full bg-white rounded-lg shadow-sm overflow-hidden">
+  <thead class="bg-gray-50">
+    <tr>
+      <th class="p-3 text-left">Nama</th>
+      <th class="p-3 text-left">NIM</th>
+      <th class="p-3 text-left">Evaluasi</th>
+      <th class="p-3 text-left">Terakhir</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in member_status %}
+    <tr class="border-t">
+      <td class="p-3">{{ item.student.nama }}</td>
+      <td class="p-3">{{ item.student.nim }}</td>
+      <td class="p-3">{% if item.evaluated %}<span class="text-green-600">Sudah</span> {% else %}<span class="text-red-600">Belum</span>{% endif %}</td>
+      <td class="p-3">{% if item.evaluation %}{{ item.evaluation.created_at|date:"Y-m-d H:i" }}{% else %}-{% endif %}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4" class="p-4 text-center text-gray-500">Belum ada anggota.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

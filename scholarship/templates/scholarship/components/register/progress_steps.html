@@ -1,0 +1,42 @@
+<!-- Progress Steps - 2 Steps: Registrasi & Verifikasi → Lengkapi Data -->
+<!-- Parameters: success_mode (boolean), compact (boolean) -->
+<div class="{% if not compact %}mb-8{% else %}mb-6{% endif %}">
+    <div class="flex items-center justify-between relative max-w-md mx-auto">
+        <!-- Step 1: Registrasi & Verifikasi -->
+        <div class="flex flex-col items-center z-10">
+            {% if success_mode %}
+            <div class="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">
+                <i class="fas fa-check"></i>
+            </div>
+            <span class="text-sm mt-3 font-semibold text-green-600 text-center">Registrasi &<br>Verifikasi</span>
+            {% else %}
+            <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg">
+                1
+            </div>
+            <span class="text-sm mt-3 font-semibold text-blue-600 text-center">Registrasi &<br>Verifikasi</span>
+            {% endif %}
+        </div>
+
+        <!-- Connector -->
+        <div class="flex-1 h-1 {% if success_mode %}bg-blue-200{% else %}bg-gray-200{% endif %} mx-4 relative">
+            {% if success_mode %}
+            <div class="absolute inset-0 bg-blue-600 animate-pulse"></div>
+            {% endif %}
+        </div>
+
+        <!-- Step 2: Lengkapi Data -->
+        <div class="flex flex-col items-center z-10">
+            {% if success_mode %}
+            <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-2xl shadow-lg animate-bounce">
+                2
+            </div>
+            <span class="text-sm mt-3 font-semibold text-blue-600 text-center">Lengkapi<br>Data</span>
+            {% else %}
+            <div class="w-14 h-14 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-bold text-xl">
+                2
+            </div>
+            <span class="text-sm mt-3 font-medium text-gray-500 text-center">Lengkapi<br>Data</span>
+            {% endif %}
+        </div>
+    </div>
+</div>

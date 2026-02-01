@@ -1,0 +1,49 @@
+{% extends 'scholarship/base.html' %}
+
+{% block title %}Daftar Mahasiswa{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Daftar Mahasiswa</h2>
+<div class="mb-4">
+  <a href="?filter=all" class="mr-2 underline">Semua</a>
+  <a href="?filter=verified" class="mr-2 underline">Terverifikasi</a>
+  <a href="?filter=unverified" class="underline">Belum Terverifikasi</a>
+</div>
+<table class="w-full bg-white rounded-lg shadow-sm overflow-hidden">
+  <thead class="bg-gray-50">
+    <tr>
+      <th class="p-3 text-left">Nama</th>
+      <th class="p-3 text-left">NIM</th>
+      <th class="p-3 text-left">Email</th>
+      <th class="p-3 text-left">Semester</th>
+      <th class="p-3 text-left">Verifikasi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in students %}
+    <tr class="border-t">
+      <td class="p-3">{{ s.nama }}</td>
+      <td class="p-3">{{ s.nim }}</td>
+      <td class="p-3">{{ s.email }}</td>
+      <td class="p-3">{{ s.semester }}</td>
+      <td class="p-3">
+        {% if s.is_verified %}
+          <span class="text-green-600">Terverifikasi</span>
+        {% else %}
+          <span class="text-red-600">Belum</span>
+        {% endif %}
+      </td>
+      <td class="p-3">
+        {% if s.evaluations.exists %}
+          <span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs">Sudah Dinilai</span>
+        {% else %}
+          <span class="inline-flex items-center px-2 py-1 rounded-full bg-gray-50 text-gray-600 text-xs">Belum Dinilai</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6" class="p-4 text-center text-gray-500">Belum ada mahasiswa.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

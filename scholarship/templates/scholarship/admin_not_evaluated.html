@@ -1,0 +1,20 @@
+{% extends 'scholarship/base.html' %}
+
+{% block title %}Belum Dinilai{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Mahasiswa Belum Dinilai</h2>
+<ul class="space-y-3">
+  {% for s in students %}
+  <li class="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+    <div>
+      <div class="font-semibold">{{ s.nama }} ({{ s.nim }})</div>
+      <div class="text-sm text-gray-500">Email: {{ s.email }}</div>
+    </div>
+    <div class="text-sm text-orange-600">Belum Dinilai</div>
+  </li>
+  {% empty %}
+  <li class="text-gray-500 italic">Semua mahasiswa sudah dinilai.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
