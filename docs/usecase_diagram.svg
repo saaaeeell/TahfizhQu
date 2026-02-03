@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <style>
+    .actor { font: 14px sans-serif; fill: #222; }
+    .uc { fill: #f9f9f9; stroke: #333; stroke-width: 1.6; }
+    .label { font: 13px sans-serif; fill: #111; }
+    .actor-figure { stroke: #222; stroke-width: 2; fill: none; }
+    .arrow { stroke: #666; stroke-width: 1.4; fill: none; marker-end: url(#arrowhead);} 
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+    </marker>
+  </defs>
+
+  <!-- Actors (left column) -->
+  <!-- Student -->
+  <g transform="translate(80,100)">
+    <text class="actor" x="0" y="-10">Student</text>
+    <circle class="actor-figure" cx="0" cy="10" r="14" />
+    <line class="actor-figure" x1="0" y1="24" x2="0" y2="60" />
+    <line class="actor-figure" x1="0" y1="36" x2="-16" y2="48" />
+    <line class="actor-figure" x1="0" y1="36" x2="16" y2="48" />
+    <line class="actor-figure" x1="0" y1="60" x2="-14" y2="84" />
+    <line class="actor-figure" x1="0" y1="60" x2="14" y2="84" />
+  </g>
+
+  <!-- Examiner -->
+  <g transform="translate(80,300)">
+    <text class="actor" x="0" y="-10">Examiner</text>
+    <circle class="actor-figure" cx="0" cy="10" r="14" />
+    <line class="actor-figure" x1="0" y1="24" x2="0" y2="60" />
+    <line class="actor-figure" x1="0" y1="36" x2="-16" y2="48" />
+    <line class="actor-figure" x1="0" y1="36" x2="16" y2="48" />
+    <line class="actor-figure" x1="0" y1="60" x2="-14" y2="84" />
+    <line class="actor-figure" x1="0" y1="60" x2="14" y2="84" />
+  </g>
+
+  <!-- Admin -->
+  <g transform="translate(80,500)">
+    <text class="actor" x="0" y="-10">Admin</text>
+    <circle class="actor-figure" cx="0" cy="10" r="14" />
+    <line class="actor-figure" x1="0" y1="24" x2="0" y2="60" />
+    <line class="actor-figure" x1="0" y1="36" x2="-16" y2="48" />
+    <line class="actor-figure" x1="0" y1="36" x2="16" y2="48" />
+    <line class="actor-figure" x1="0" y1="60" x2="-14" y2="84" />
+    <line class="actor-figure" x1="0" y1="60" x2="14" y2="84" />
+  </g>
+
+  <!-- System (Email) -->
+  <g transform="translate(80,680)">
+    <text class="actor" x="0" y="-10">System (Email)</text>
+    <rect x="-18" y="0" width="36" height="20" rx="3" ry="3" stroke="#222" fill="#fff" />
+    <polyline class="actor-figure" points="-16,4 0,12 16,4" />
+  </g>
+
+  <!-- Use Cases (ellipses) -->
+  <g id="usecases">
+    <!-- Student-related -->
+    <ellipse class="uc" cx="420" cy="70" rx="140" ry="28" />
+    <text class="label" x="420" y="75" text-anchor="middle">Register</text>
+
+    <ellipse class="uc" cx="420" cy="130" rx="140" ry="28" />
+    <text class="label" x="420" y="135" text-anchor="middle">Verify Email</text>
+
+    <ellipse class="uc" cx="420" cy="190" rx="140" ry="28" />
+    <text class="label" x="420" y="195" text-anchor="middle">Login</text>
+
+    <ellipse class="uc" cx="640" cy="130" rx="150" ry="28" />
+    <text class="label" x="640" y="135" text-anchor="middle">Apply for Scholarship</text>
+
+    <ellipse class="uc" cx="640" cy="190" rx="150" ry="28" />
+    <text class="label" x="640" y="195" text-anchor="middle">View Student Dashboard</text>
+
+    <!-- Examiner-related -->
+    <ellipse class="uc" cx="420" cy="300" rx="150" ry="28" />
+    <text class="label" x="420" y="305" text-anchor="middle">View Examiner Dashboard</text>
+
+    <ellipse class="uc" cx="640" cy="300" rx="120" ry="28" />
+    <text class="label" x="640" y="305" text-anchor="middle">Evaluate Student</text>
+
+    <!-- Admin-related -->
+    <ellipse class="uc" cx="420" cy="460" rx="140" ry="28" />
+    <text class="label" x="420" y="465" text-anchor="middle">View Admin Dashboard</text>
+
+    <ellipse class="uc" cx="640" cy="420" rx="120" ry="28" />
+    <text class="label" x="640" y="425" text-anchor="middle">Verify Student</text>
+
+    <ellipse class="uc" cx="640" cy="460" rx="120" ry="28" />
+    <text class="label" x="640" y="465" text-anchor="middle">Create Examiner / Group</text>
+
+    <ellipse class="uc" cx="640" cy="500" rx="120" ry="28" />
+    <text class="label" x="640" y="505" text-anchor="middle">Announce Results</text>
+
+    <ellipse class="uc" cx="420" cy="540" rx="120" ry="28" />
+    <text class="label" x="420" y="545" text-anchor="middle">Download Templates</text>
+
+    <!-- Email actions -->
+    <ellipse class="uc" cx="920" cy="150" rx="140" ry="28" />
+    <text class="label" x="920" y="155" text-anchor="middle">Send Verification Email</text>
+
+    <ellipse class="uc" cx="920" cy="210" rx="140" ry="28" />
+    <text class="label" x="920" y="215" text-anchor="middle">Send Confirmation Email</text>
+
+    <ellipse class="uc" cx="920" cy="300" rx="140" ry="28" />
+    <text class="label" x="920" y="305" text-anchor="middle">Send Evaluation Notification</text>
+
+    <ellipse class="uc" cx="920" cy="420" rx="140" ry="28" />
+    <text class="label" x="920" y="425" text-anchor="middle">Send Final Result Email</text>
+  </g>
+
+  <!-- Arrows from actors to use cases -->
+  <!-- Student connections -->
+  <path class="arrow" d="M110,110 L280,70" />
+  <path class="arrow" d="M110,150 L300,130" />
+  <path class="arrow" d="M110,200 L300,190" />
+  <path class="arrow" d="M110,160 L540,130" />
+  <path class="arrow" d="M110,220 L540,190" />
+
+  <!-- Examiner connections -->
+  <path class="arrow" d="M110,300 L320,300" />
+  <path class="arrow" d="M110,320 L540,300" />
+
+  <!-- Admin connections -->
+  <path class="arrow" d="M110,500 L320,460" />
+  <path class="arrow" d="M110,520 L540,420" />
+  <path class="arrow" d="M110,540 L540,460" />
+  <path class="arrow" d="M110,560 L540,500" />
+  <path class="arrow" d="M110,520 L320,540" />
+
+  <!-- System email connections (to email actions) -->
+  <path class="arrow" d="M110,700 L840,150" />
+  <path class="arrow" d="M110,700 L840,210" />
+  <path class="arrow" d="M110,700 L840,300" />
+  <path class="arrow" d="M110,700 L840,420" />
+
+  <!-- Relationships between use cases (dashed) -->
+  <path stroke="#888" stroke-width="1" stroke-dasharray="6,4" fill="none" d="M460,70 L820,150" />
+  <text class="label" x="640" y="110" text-anchor="middle" fill="#666"><<include>></text>
+
+  <path stroke="#888" stroke-width="1" stroke-dasharray="6,4" fill="none" d="M460,130 L820,210" />
+  <text class="label" x="640" y="170" text-anchor="middle" fill="#666"><<include>></text>
+
+  <path stroke="#888" stroke-width="1" stroke-dasharray="6,4" fill="none" d="M560,420 L820,150" />
+  <text class="label" x="700" y="320" text-anchor="middle" fill="#666"><<include>></text>
+
+</svg>

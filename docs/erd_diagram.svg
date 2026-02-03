@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="600" viewBox="0 0 1100 600">
+  <style>
+    .box { fill:#fff; stroke:#333; stroke-width:1.4; }
+    .title { font: 14px sans-serif; font-weight:700; fill:#111; }
+    .attr { font: 12px sans-serif; fill:#222; }
+    .fk { fill:#004085; font-weight:600; }
+    .rel { stroke:#666; stroke-width:1.2; fill:none; marker-end:url(#arrow); }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="#666" />
+    </marker>
+  </defs>
+
+  <!-- USER -->
+  <g transform="translate(40,40)">
+    <rect class="box" x="0" y="0" width="300" height="120" rx="6" />
+    <text class="title" x="12" y="24">USER</text>
+    <text class="attr" x="12" y="46">id (PK)</text>
+    <text class="attr" x="12" y="66">username</text>
+    <text class="attr" x="12" y="86">email</text>
+    <text class="attr" x="12" y="106">role, is_active</text>
+  </g>
+
+  <!-- STUDENT -->
+  <g transform="translate(380,20)">
+    <rect class="box" x="0" y="0" width="320" height="220" rx="6" />
+    <text class="title" x="12" y="24">STUDENT</text>
+    <text class="attr" x="12" y="46">id (PK)</text>
+    <text class="attr fk" x="12" y="66">user_id (FK -> USER)</text>
+    <text class="attr" x="12" y="86">nama, nim, email</text>
+    <text class="attr" x="12" y="106">kampus, fakultas, jurusan</text>
+    <text class="attr" x="12" y="126">semester, ipk, jumlah_hafalan</text>
+    <text class="attr" x="12" y="146">tanggal_lahir</text>
+    <text class="attr" x="12" y="166">is_verified, status_seleksi</text>
+    <text class="attr" x="12" y="186">created_at</text>
+  </g>
+
+  <!-- EXAMINER -->
+  <g transform="translate(380,260)">
+    <rect class="box" x="0" y="0" width="320" height="120" rx="6" />
+    <text class="title" x="12" y="24">EXAMINER</text>
+    <text class="attr" x="12" y="46">id (PK)</text>
+    <text class="attr fk" x="12" y="66">user_id (FK -> USER, OneToOne)</text>
+    <text class="attr" x="12" y="86">nama, email, nomor_telepon</text>
+  </g>
+
+  <!-- GROUP -->
+  <g transform="translate(740,40)">
+    <rect class="box" x="0" y="0" width="320" height="120" rx="6" />
+    <text class="title" x="12" y="24">GROUP</text>
+    <text class="attr" x="12" y="46">id (PK)</text>
+    <text class="attr fk" x="12" y="66">examiner_id (FK -> EXAMINER)</text>
+    <text class="attr" x="12" y="86">nama_group</text>
+    <text class="attr" x="12" y="106">whatsapp_link, gmeet_link</text>
+  </g>
+
+  <!-- EVALUATION -->
+  <g transform="translate(740,220)">
+    <rect class="box" x="0" y="0" width="320" height="160" rx="6" />
+    <text class="title" x="12" y="24">EVALUATION</text>
+    <text class="attr" x="12" y="46">id (PK)</text>
+    <text class="attr fk" x="12" y="66">student_id (FK -> STUDENT)</text>
+    <text class="attr fk" x="12" y="86">examiner_id (FK -> EXAMINER)</text>
+    <text class="attr" x="12" y="106">makhorijul_huruf, tajwid, lancar</text>
+    <text class="attr" x="12" y="126">wsm_score, is_published</text>
+    <text class="attr" x="12" y="146">created_at</text>
+  </g>
+
+  <!-- Relationships (arrows + labels) -->
+  <!-- USER -> STUDENT (1..*) -->
+  <path class="rel" d="M340 80 L380 80" />
+  <text class="attr" x="320" y="70" fill="#333">1</text>
+  <text class="attr" x="370" y="70" fill="#333">* (applications)</text>
+
+  <!-- USER -> EXAMINER (1..1) -->
+  <path class="rel" d="M200 140 L380 280" />
+  <text class="attr" x="260" y="200" fill="#333">1..1</text>
+
+  <!-- EXAMINER -> GROUP (1..*) -->
+  <path class="rel" d="M560 320 L740 100" />
+  <text class="attr" x="620" y="220" fill="#333">1..*</text>
+
+  <!-- GROUP <-> STUDENT (M..N) -->
+  <path class="rel" d="M660 140 L740 140" />
+  <path class="rel" d="M660 200 L740 200" />
+  <text class="attr" x="660" y="155" fill="#333">M..N (members)</text>
+
+  <!-- STUDENT -> EVALUATION (1..*) -->
+  <path class="rel" d="M640 160 L740 260" />
+  <text class="attr" x="690" y="190" fill="#333">1..*</text>
+
+  <!-- EXAMINER -> EVALUATION (1..*) -->
+  <path class="rel" d="M560 320 L740 280" />
+  <text class="attr" x="640" y="300" fill="#333">1..*</text>
+
+</svg>

@@ -13,27 +13,7 @@
             class="bg-yellow-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-yellow-700 transition shadow-lg flex items-center">
             <i class="fas fa-user-check mr-2"></i> Verifikasi Data
         </a>
-        <div class="relative group">
-            <button
-                class="bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition shadow-lg flex items-center">
-                <i class="fas fa-plus mr-2"></i> Shortcut Tambah
-            </button>
-            <div
-                class="absolute right-0 bottom-full mb-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 hidden group-hover:block z-20">
-                <a href="{% url 'create_examiner' %}"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-t-xl transition">
-                    <i class="fas fa-user-tie mr-2 text-green-500"></i> Buat Penguji
-                </a>
-                <a href="{% url 'create_group' %}"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-b-xl transition">
-                    <i class="fas fa-users-cog mr-2 text-blue-500"></i> Buat Kelompok
-                </a>
-                <a href="{% url 'admin_recent_evaluations' %}"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-b-xl transition">
-                    <i class="fas fa-bell mr-2 text-pink-500"></i> Evaluasi Baru
-                </a>
-            </div>
-        </div>
+        <!-- Shortcut Tambah dihapus sesuai permintaan -->
         <a href="{% url 'announce_results' %}"
             onclick="return confirm('Apakah Anda yakin ingin mempublikasikan semua hasil?')"
             class="bg-red-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-red-700 transition shadow-lg flex items-center">

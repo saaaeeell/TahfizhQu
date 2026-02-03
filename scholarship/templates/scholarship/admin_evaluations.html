@@ -4,6 +4,12 @@
 
 {% block content %}
 <h2 class="text-2xl font-bold mb-4">Evaluasi Masuk</h2>
+
+<!-- Keterangan singkat tentang aturan penilaian WSM -->
+<div class="mb-4 p-4 bg-blue-50 border-l-4 border-blue-400 text-sm text-blue-700 rounded">
+  <strong>Keterangan:</strong> Penilaian menggunakan metode <em>Weighted Scoring Model (WSM)</em>. Skor akhir berada pada rentang 0–100; mahasiswa dinyatakan <strong>Lulus</strong> apabila skor &ge; 70, dan <strong>Tidak Lulus</strong> jika di bawah 70. Rincian perhitungan tersedia pada tiap evaluasi.
+</div>
+
 <ul class="space-y-3">
   {% for ev in evaluations %}
   <li class="bg-white p-4 rounded-lg shadow-sm">
@@ -14,7 +20,14 @@
       </div>
       <div class="text-right">
         <div class="font-bold">{{ ev.wsm_score }} <span class="text-xs text-gray-500">/100</span></div>
-        <div class="text-sm">{% if ev.is_published %}<span class="text-green-600">Terbit{% else %}<span class="text-yellow-600">Pending{% endif %}</span></div>
+        <div class="mt-1">
+          {% if ev.student.status_seleksi == 'Lulus' %}
+            <span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs">Lulus</span>
+          {% else %}
+            <span class="inline-flex items-center px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs">Tidak Lulus</span>
+          {% endif %}
+        </div>
+        <div class="text-sm mt-1">{% if ev.is_published %}<span class="text-green-600">Terbit{% else %}<span class="text-yellow-600">Pending{% endif %}</span></div>
       </div>
     </div>
 

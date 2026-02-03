@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="900" viewBox="0 0 1300 900">
+  <style>
+    .box { fill:#fff; stroke:#222; stroke-width:1.4; }
+    .title { font: 14px sans-serif; font-weight:700; fill:#111; }
+    .attr { font: 12px sans-serif; fill:#222; }
+    .fk { fill:#0b5; font-weight:600; }
+    .rel { stroke:#666; stroke-width:1.2; fill:none; marker-end:url(#arrow); }
+    .label { font:12px sans-serif; fill:#444; }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="#666" />
+    </marker>
+  </defs>
+
+  <!-- ADMIN -->
+  <g transform="translate(40,40)">
+    <rect class="box" x="0" y="0" width="260" height="90" rx="6" />
+    <text class="title" x="12" y="24">ADMIN</text>
+    <text class="attr" x="12" y="44">id_admin (PK)</text>
+    <text class="attr" x="12" y="64">nama_admin, email</text>
+  </g>
+
+  <!-- DOSEN -->
+  <g transform="translate(360,40)">
+    <rect class="box" x="0" y="0" width="260" height="110" rx="6" />
+    <text class="title" x="12" y="24">DOSEN</text>
+    <text class="attr" x="12" y="44">id_dosen (PK)</text>
+    <text class="attr" x="12" y="64">nip, nama_dosen, email</text>
+  </g>
+
+  <!-- MAHASISWA -->
+  <g transform="translate(360,200)">
+    <rect class="box" x="0" y="0" width="360" height="160" rx="6" />
+    <text class="title" x="12" y="24">MAHASISWA</text>
+    <text class="attr" x="12" y="44">id_mahasiswa (PK)</text>
+    <text class="attr" x="12" y="64">nim, nama_mahasiswa, program_studi</text>
+    <text class="attr" x="12" y="84">semester, tahun_masuk, ...</text>
+  </g>
+
+  <!-- BIDANG KOMPETENSI -->
+  <g transform="translate(760,40)">
+    <rect class="box" x="0" y="0" width="300" height="110" rx="6" />
+    <text class="title" x="12" y="24">BIDANG_KOMPETENSI</text>
+    <text class="attr" x="12" y="44">id_kompetensi (PK)</text>
+    <text class="attr" x="12" y="64">nama_kompetensi, deskripsi</text>
+  </g>
+
+  <!-- BIDANG PENDUKUNG -->
+  <g transform="translate(760,200)">
+    <rect class="box" x="0" y="0" width="300" height="110" rx="6" />
+    <text class="title" x="12" y="24">BIDANG_PENDUKUNG</text>
+    <text class="attr" x="12" y="44">id_pendukung (PK)</text>
+    <text class="attr" x="12" y="64">nama_pendukung, bobot_nilai</text>
+  </g>
+
+  <!-- PEMINATAN -->
+  <g transform="translate(360,420)">
+    <rect class="box" x="0" y="0" width="300" height="110" rx="6" />
+    <text class="title" x="12" y="24">PEMINATAN</text>
+    <text class="attr" x="12" y="44">id_peminatan (PK)</text>
+    <text class="attr" x="12" y="64">nama_peminatan, deskripsi</text>
+  </g>
+
+  <!-- KUIS -->
+  <g transform="translate(760,420)">
+    <rect class="box" x="0" y="0" width="300" height="90" rx="6" />
+    <text class="title" x="12" y="24">KUIS</text>
+    <text class="attr" x="12" y="44">id_kuis (PK)</text>
+    <text class="attr" x="12" y="64">pertanyaan, bobot</text>
+  </g>
+
+  <!-- Relationships -->
+  <path class="rel" d="M300 80 L360 80" />
+  <text class="label" x="320" y="70">1..M mengelola</text>
+
+  <path class="rel" d="M460 150 L460 200" />
+  <text class="label" x="480" y="175">1..M membimbing</text>
+
+  <!-- Mahasiswa <-> Bidang Kompetensi (M..N) -->
+  <path class="rel" d="M720 120 L760 120" />
+  <path class="rel" d="M720 240 L760 240" />
+  <text class="label" x="700" y="170">M..N (direkomendasikan)</text>
+
+  <!-- Mahasiswa <-> Bidang Pendukung (M..N) -->
+  <path class="rel" d="M720 260 L760 260" />
+  <path class="rel" d="M720 260 L760 260" />
+  <text class="label" x="620" y="300">M..N (mengikuti/menunjang)</text>
+
+  <!-- Peminatan relations -->
+  <path class="rel" d="M500 460 L760 240" />
+  <text class="label" x="620" y="360">M..N (memiliki / mendukung)</text>
+
+  <path class="rel" d="M640 460 L760 460" />
+  <text class="label" x="700" y="440">1..* (peminatan -> kuis)</text>
+
+</svg>

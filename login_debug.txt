@@ -14,3 +14,63 @@ Login attempt: username=Elsa12, next_url=
 Auth success for Elsa12. Role=admin, Staff=True, Hero=True
 Login attempt: username=Elsa12, next_url=
 Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Elsa12, next_url=
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Intan, next_url=
+User Intan does not exist
+Auth failed for Intan
+Login attempt: username=Intan, next_url=
+User Intan does not exist
+Auth failed for Intan
+Login attempt: username=Intan, next_url=
+User Intan does not exist
+Auth failed for Intan
+Login attempt: username=Intan, next_url=
+User Intan does not exist
+Auth failed for Intan
+Login attempt: username=intan, next_url=
+Auth success for intan. Role=student, Staff=False, Hero=False
+Login attempt: username=intan, next_url=
+Auth success for intan. Role=student, Staff=False, Hero=False
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Indy, next_url=
+Auth success for Indy. Role=examiner, Staff=False, Hero=False
+Login attempt: username=intan, next_url=
+Auth success for intan. Role=student, Staff=False, Hero=False
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=intan, next_url=
+Auth success for intan. Role=student, Staff=False, Hero=False
+Login attempt: username=Indy, next_url=
+Auth success for Indy. Role=examiner, Staff=False, Hero=False
+Login attempt: username=Elsa12, next_url=
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=intan, next_url=
+Auth success for intan. Role=student, Staff=False, Hero=False
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Ananda, next_url=
+Auth success for Ananda. Role=student, Staff=False, Hero=False
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Indy, next_url=
+Auth success for Indy. Role=examiner, Staff=False, Hero=False
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
+Login attempt: username=Indy, next_url=
+Auth success for Indy. Role=examiner, Staff=False, Hero=False
+Login attempt: username=Elsa12, next_url=
+Auth success for Elsa12. Role=admin, Staff=True, Hero=True
